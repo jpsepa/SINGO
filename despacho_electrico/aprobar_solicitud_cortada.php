@@ -27,7 +27,8 @@ while($row = mysqli_fetch_array($result))
 	$encargados=$row['encargados'];
 	$telefonos=$row['telefonos'];
 	$descripcion=$row['descripcion'];
-	$fecha_ingreso = date("Y-m-d h:i:s");
+	$fecha_ingreso=date("Y-m-d h:i:s");
+	$usuario=$_SESSION['nombre']." ". $_SESSION['apellido_pat'];
 }
 
 $query2=("INSERT INTO despacho_solicitud(desde_fecha, desde_hora, hasta_fecha, hasta_hora, block,tipo, circulacion_trenes, vias, desde_sector,

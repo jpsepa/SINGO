@@ -4,10 +4,12 @@ error_reporting(E_ERROR);
   
 session_start();
 
-include "config.php";
+include "../config.php";
 
 $link = Conectarse();
 
+if(!$_SESSION['logeado']==1)
+	header("Location: ../login.php");
 
 ?>
 
@@ -111,6 +113,7 @@ $link = Conectarse();
 						</table>
 					</div>
 				</div>
+			<a href="aprobar_solicitud_cortada_todas.php" type="submit" class="btn btn-primary">Aprobar todas las solicitudes</a>
 			</div>
 		</div><!--/.row-->
 

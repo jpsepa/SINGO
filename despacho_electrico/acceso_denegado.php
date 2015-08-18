@@ -1,11 +1,13 @@
 <?php
 
-include "config.php";
+include "../config.php";
 
 $link = Conectarse();
 
 session_start();
 
+if(!$_SESSION['logeado']==1)
+	header("Location: ../login.php");
 
 ?>
 

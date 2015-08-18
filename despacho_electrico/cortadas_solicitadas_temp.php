@@ -2,10 +2,12 @@
 
 session_start();
 
-include "config.php";
+include "../config.php";
 
 $link = Conectarse();
 
+if(!$_SESSION['logeado']==1)
+	header("Location: ../login.php");
 
 $sql = "SELECT * FROM despacho_solicitud_temp";
 

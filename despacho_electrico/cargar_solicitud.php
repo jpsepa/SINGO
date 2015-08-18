@@ -8,10 +8,10 @@ $link = Conectarse();
 
 mysql_query("SET NAMES 'utf8'");
 
-if(!$_SESSION['logeado']==1)
-	header("Location: login.php");
-
 session_start();
+
+if(!$_SESSION['logeado']==1)
+	header("Location: ../login.php");
 
 ?>
 
