@@ -17,18 +17,26 @@ while($row = mysqli_fetch_array($result))
 { 
 	$id=$row['id'];
 
-	$result2=mysqli_query($link, "SELECT SUM(cumpl_real) as cumplimiento FROM objetivos_secundarios WHERE id_objetivos='$id'");
+	$result2=mysqli_query($link, "SELECT SUM(cumpl_real) as cumplimiento_real FROM objetivos_secundarios WHERE id_objetivos='$id'");
 	$row2=mysqli_fetch_array($result2);
 
 	$result3=mysqli_query($link, "SELECT SUM(cumpl_prog) as cumplimiento_prog FROM objetivos_secundarios WHERE id_objetivos='$id'");
 	$row3=mysqli_fetch_array($result3);
 
+	$suma_obj_secund=mysqli_query($link, "SELECT COUNT(*) FROM objetivos_secundarios WHERE id_objetivos='$id'");
+	$row_obj_secund=mysqli_fetch_array($suma_obj_secund);
+	$total_obj_secund=$row_obj_secund[0];
+
+	$prom_real=$row2['cumplimiento_real'] / $total_obj_secund;
+
+	$prom_prog=$row3['cumplimiento_prog'] / $total_obj_secund;
+
 	$descripcion="<a href='objetivos_secundarios.php?id=$id'>".$row['descripcion']."";
 	$responsable=$row['responsable'];
-	$cumplimiento=$row2['cumplimiento']." %";
-	$cumplimiento_prog=$row3['cumplimiento_prog']." %";
+	$cumplimiento_real=round($prom_real, 0)." %";
+	$cumplimiento_prog=round($prom_prog, 0)." %";
 
-	$objetivos_array[] = array('id'=> $id, 'descripcion'=> $descripcion, 'responsable'=> $responsable, 'plazo'=> $plazo, 'cumplimiento'=> $cumplimiento, 'cumplimiento_prog'=> $cumplimiento_prog);
+	$objetivos_array[] = array('id'=> $id, 'descripcion'=> $descripcion, 'responsable'=> $responsable, 'plazo'=> $plazo, 'cumplimiento'=> $cumplimiento_real, 'cumplimiento_prog'=> $cumplimiento_prog);
 
 }
 	

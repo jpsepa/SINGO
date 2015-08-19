@@ -265,7 +265,7 @@ $sql = mysqli_query($link, $dat);
 									require_once '../Classes/PHPExcel.php';
 									require_once '../Classes/PHPExcel/Reader/Excel2007.php';
 
-									$cn=mysqli_connect('localhost:3307', 'root', 'root', 'singo') or die ("Error en la Conexión");
+									$cn=mysqli_connect('localhost', 'root', 'segundas', 'singo') or die ("Error en la Conexión");
 
 									$objReader=new PHPExcel_Reader_Excel2007();
 									$objPHPExcel=$objReader->load("bak_".$archivo);

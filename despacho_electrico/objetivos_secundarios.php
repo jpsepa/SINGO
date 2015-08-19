@@ -21,8 +21,12 @@ $row2=mysqli_fetch_array($result2);
 
 $result3=mysqli_query($link, "SELECT * FROM objetivos_secundarios WHERE id_objetivos='$id'");
 
-$suma_cumpl=mysqli_query($link, "SELECT SUM(cumpl_real) as cumplimiento_real FROM objetivos_secundarios WHERE id_objetivos='$id'");
-$row_cumpl=mysqli_fetch_array($suma_cumpl);
+$suma_obj_secund=mysqli_query($link, "SELECT COUNT(*) FROM objetivos_secundarios WHERE id_objetivos='$id'");
+$row_obj_secund=mysqli_fetch_array($suma_obj_secund);
+$total_obj_secund=$row_obj_secund[0];
+
+$suma_cumpl_real=mysqli_query($link, "SELECT SUM(cumpl_real) as cumplimiento_real FROM objetivos_secundarios WHERE id_objetivos='$id'");
+$row_cumpl_real=mysqli_fetch_array($suma_cumpl_real);
 
 $suma_cumpl_prog=mysqli_query($link, "SELECT SUM(cumpl_prog) as cumplimiento_prog FROM objetivos_secundarios WHERE id_objetivos='$id'");
 $row_cumpl_prog=mysqli_fetch_array($suma_cumpl_prog);
@@ -30,6 +34,9 @@ $row_cumpl_prog=mysqli_fetch_array($suma_cumpl_prog);
 $usuarios=mysqli_query($link, "SELECT * FROM usuarios");
 $row_usuarios=mysql_fetch_array($usuarios); 
 
+$prom_real=$row_cumpl_real['cumplimiento_real'] / $total_obj_secund;
+
+$prom_prog=$row_cumpl_prog['cumplimiento_prog'] / $total_obj_secund;
 
 ?>
 
@@ -144,19 +151,22 @@ $row_usuarios=mysql_fetch_array($usuarios);
 							<td>TOTAL</td>
 							<td></td>
 							<td></td>
-							<td><?php echo $row_cumpl['cumplimiento_real']." %"; ?></td>
-							<td><?php echo $row_cumpl_prog['cumplimiento_prog']." %";?></td>
+							<td><?php echo round($prom_real, 0)." %"; ?></td>
+							<td><?php echo round($prom_prog, 0)." %";?></td>
 						    </tr>
 						</table>
 					</div>
 				</div>
-				<form role="form">
+				<form role="form" action="procesa_objetivos_secundarios.php" method="post">
 					<div class="panel panel-default">
 						<div class="panel-heading">Agregar Objetivo Secundario</div>
-						<div class="panel-body">	
+						<div class="panel-body">
+							<div class="form-group">
+								<input type="hidden" name="id" class="form-control" value="<?php echo $id;?>">
+							</div>	
 							<div class="form-group">
 								<label>Descripción</label>
-								<input style="background-color:#fff;color:#000" class="form-control" placeholder="Ingrese una descripción">
+								<input style="background-color:#fff;color:#000" name="descripcion" class="form-control" placeholder="Ingrese una descripción">
 							</div>								
 							<div class="form-group">
 								<label>Responsable</label>
@@ -206,6 +216,7 @@ $row_usuarios=mysql_fetch_array($usuarios);
 								<option value="100">100 %</option>
 								</select>
 							</div>
+							<button type="submit" class="btn btn-default btn-md">Ingresar</button>
 						</div>
 					</div>
 				</form>

@@ -30,18 +30,18 @@ while($row = mysqli_fetch_array($result))
 	$sector=utf8_decode($row['desde_sector'].' - '.$row['hasta_sector']);
 	$empresa=utf8_decode($row['empresa']);
 	$encargados=utf8_decode($row['encargados']);
-	$descripcion=utf8_decode($row['descripcion']);
+	$descripcion=$row['descripcion'];
 	$despacho="<a href='aprobar_solicitud_cortada.php?id=$id'><p style='color:#0ba007'>Aprobar</p></a><br><a href='libro_cortada.php?id=$id'><p style='color:red'>Rechazar</p></a>";
 
-	$cortadas[] = array('id'=>$id, 'desde_fecha'=> $desde_fecha, 'hasta_fecha'=> $hasta_fecha, 
-						'block'=> $block, 'tipo'=> $tipo, 'circulacion_trenes'=> $circulacion_trenes, 'vias'=> $vias, 'sector'=> $sector, 'empresa'=> $empresa, 
-						'encargados'=> $encargados, 'descripcion'=> $descripcion, 'despacho'=>$despacho);
+	$cortadas[] = array('id'=> $id, 'desde_fecha'=> $desde_fecha, 'hasta_fecha'=> $hasta_fecha, 
+						'block'=> $block, 'tipo'=> $tipo, 'circulacion_trenes'=> $circulacion_trenes,
+						'vias'=> $vias, 'sector'=> $sector, 'empresa'=> $empresa, 'encargados'=> $encargados, 
+						'descripcion'=> $descripcion, 'despacho'=> $despacho);
 
 }
 	
 //desconectamos la base de datos
-$close = mysqli_close($link) 
-or die("Ha sucedido un error inexperado en la desconexion de la base de datos");
+$close = mysqli_close($link) or die("Ha sucedido un error inexperado en la desconexion de la base de datos");
   
 
 //Creamos el JSON

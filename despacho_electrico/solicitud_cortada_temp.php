@@ -107,6 +107,7 @@ if(!$_SESSION['logeado']==1)
 						        <th data-field="vias" data-sortable="true">Vías</th>
 						        <th data-field="empresa" data-sortable="true">Empresa</th>
 						        <th data-field="encargados" data-sortable="true">Encargado</th>
+						        <th data-field="descripcion" data-sortable="true">Descripción</th>
 						        <th data-field="despacho" data-sortable="true">Aprueba D.E.</th>
 						    </tr>
 						    </thead>
