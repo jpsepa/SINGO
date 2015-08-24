@@ -2,12 +2,13 @@
 
 session_start();
 
-include "config.php";
+include "../config.php";
 
 $link = Conectarse();
 
 $sql = "SELECT * FROM objetivos WHERE area='DESPACHO ELÉCTRICO'";
 mysqli_set_charset($link, "utf8"); //formato de datos utf8
+
 
 if(!$result = mysqli_query($link, $sql)) die();
 

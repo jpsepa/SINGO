@@ -13,6 +13,9 @@ session_start();
 if(!$_SESSION['logeado']==1)
 	header("Location: ../login.php");
 
+$dat = "SELECT * FROM despacho_empresas";
+$sql = mysqli_query($link, $dat);
+
 ?>
 
 <!DOCTYPE html>
@@ -20,19 +23,23 @@ if(!$_SESSION['logeado']==1)
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tren Central - Sistema Integrado De Gestión Operacional</title>
+<title>Tren Central - Sistema Integrado de Gestión Operacional</title>
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/datepicker3.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
 <link href="img/favicon.ico" rel="icon">
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
-
+<link rel="stylesheet" type="text/css" href="css/jquery.orgchart.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-clockpicker.min.css">
 <!--[if lt IE 9]>
 <link href="css/rgba-fallback.css" rel="stylesheet">
 <script src="js/html5shiv.js"></script>
 <script src="js/respond.min.js"></script>
 <![endif]-->
+<script type='text/javascript' src='http://code.jquery.com/jquery-1.11.0.js'></script>
+<script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="js/clockpicker.js"></script>
 
 </head>
 
@@ -204,6 +211,137 @@ if(!$_SESSION['logeado']==1)
 				</div>
 			</div><!-- /.col-->
 		</div><!-- /.row -->
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading"><span class="glyphicon glyphicon-user"></span> INGRESE LA SOLICITUD DE LA CORTADA</div>
+					<div class="panel-body">
+						<form role="form" action="ingresa_cortadas.php" method="post">
+							<fieldset>
+								<!-- Name input-->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Desde:</label>
+									<div class="col-md-9">
+									<input data-provide="datepicker" style="background-color:#fff;color:#000;cursor:pointer" name="desde_fecha" class="form-control" readonly value="<?php echo date("Y-m-d");?>">&nbsp;&nbsp;&nbsp;<input type="text" style="background-color:#fff;color:#000;cursor:pointer" id="desde_hora" name="desde_hora" class="hora-control form-control" readonly value="00:00">
+									<script type="text/javascript">
+										var clock = $('.hora-control');
+										clock.clockpicker({
+    									autoclose: true
+										});
+										// minutes
+										clock.clockpicker('show').clockpicker('toggleView', 'minutes');
+									</script>
+									</div>
+								</div>
+								<br><br><br><br><br>
+								<!-- Email input-->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Hasta:</label>
+									<div class="col-md-9">
+									<input data-provide="datepicker" name="hasta_fecha" style="background-color:#fff;color:#000;cursor:pointer" class="form-control" readonly value="<?php echo date("Y-m-d");?>">&nbsp;&nbsp;&nbsp;<input type="text" style="background-color:#fff;color:#000;cursor:pointer" id="hasta_hora" name="hasta_hora" class="hora-control2 form-control" readonly value="00:00">
+									<script type="text/javascript">
+										var clock = $('.hora-control2');
+										clock.clockpicker({
+    									autoclose: true
+										});
+										// minutes
+										clock.clockpicker('show').clockpicker('toggleView', 'minutes');
+									</script>
+									</div>
+								</div>
+								<br><br><br><br><br>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Block:</label>
+									<div class="col-md-9">
+									<input type="text" style="background-color:#fff;color:#000;text-transform:uppercase" name="block" class="form-control">
+									</div>
+								</div>
+								<br><br>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Tipo:</label>
+									<div class="col-md-9">
+									<input type="text" style="background-color:#fff;color:#000;text-transform:uppercase" name="tipo" class="form-control">
+									</div>
+								</div>
+								<br><br>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Circulación de Trenes:</label>
+									<div class="col-md-9">
+									<select class="form-control" style="background-color:#fff;color:#000" name="circulacion_trenes">
+										<option value="CON PASADA DE TRENES">CON PASADA DE TRENES</option>
+										<option value="SIN PASADA DE TRENES">SIN PASADA DE TRENES</option>
+									</select>
+									</div>
+								</div>
+								<br><br>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Vías:</label>
+									<div class="col-md-9">
+									<select class="form-control" style="background-color:#fff;color:#000" name="vias">
+										<option value="SIMPLE VÍA">SIMPLE VÍA</option>
+										<option value="DOBLE VÍA">DOBLE VÍA</option>
+										<option value="AMBAS VÍAS">AMBAS VÍAS</option>
+										<option value="TODAS">TODAS</option>
+									</select>
+								</div>
+								<br><br><br>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Empresa:</label>
+									<div class="col-md-9">
+									<select class="form-control" style="background-color:#fff;color:#000" name="empresa">
+										<?php
+ 										while($lista=mysqli_fetch_array($sql))
+										 echo "<option  value='".$lista["nombre"]."'>".$lista["nombre"]."</option>"; 
+										?>
+									</select>
+									</div>
+								</div>
+								<br><br>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Encargados:</label>
+									<div class="col-md-9">
+									<input type="text" style="background-color:#fff;color:#000;text-transform:uppercase" name="encargados" class="form-control">
+									</div>
+								</div>
+								<br><br>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Teléfonos:</label>
+									<div class="col-md-9">
+									<input type="text" style="background-color:#fff;color:#000;text-transform:uppercase" name="telefonos" class="form-control">
+									</div>
+								</div>
+								<br><br>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Descripción Trabajos:</label>
+									<div class="col-md-9">
+									<textarea style="background-color:#fff;color:#000;text-transform:uppercase" name="descripcion" class="form-control"></textarea>
+									</div>
+								</div>
+								<br><br><br><br>
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Aprobación Despacho Eléctrico:</label>
+									<div class="col-md-9">
+										<label>
+											<input type="radio" name="aprobacion" id="si" value="SI" checked> Si
+										</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<label>
+											<input type="radio" name="aprobacion" id="no" value="NO"> No
+										</label>
+									</div>
+								</div>
+								<br>
+								<!-- Form actions -->
+								<div class="form-group">
+									<div class="col-md-12 widget-right">
+										<button type="submit" class="btn btn-default btn-md">Ingresar Cortada</button>
+									</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 		
 	</div><!--/.main-->
 

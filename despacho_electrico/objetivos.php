@@ -11,6 +11,10 @@ $link = Conectarse();
 if(!$_SESSION['logeado']==1)
 	header("Location: ../login.php");
 
+$usuarios=mysqli_query($link, "SELECT * FROM usuarios");
+$row_usuarios=mysql_fetch_array($usuarios);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +27,7 @@ if(!$_SESSION['logeado']==1)
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/datepicker3.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
-<link href="img/favicon.ico" rel="icon">
+<link href="../img/favicon.ico" rel="icon">
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="css/jquery.orgchart.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap-clockpicker.min.css">
@@ -48,7 +52,7 @@ if(!$_SESSION['logeado']==1)
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#"><img src="img/logo-tmsa.png"></a>
+				<a class="navbar-brand" href="#"><img src="../img/logo-tmsa.png"></a>
 				<center><h2 style="color:#000"><b>Sistema Integrado de Gestión Operacional</b> - Gerencia de Operaciones</h2></center>
 			</div>
 		</div><!-- /.container-fluid -->
@@ -57,7 +61,7 @@ if(!$_SESSION['logeado']==1)
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		<form role="search">
 			<div class="form-group">
-				<h3><?php echo $_SESSION['nombre']." ". utf8_encode($_SESSION['apellido_pat']);?></h3>
+				<h3><?php echo utf8_encode($_SESSION['nombre'])." ". utf8_encode($_SESSION['apellido_pat']);?></h3>
 				<h4><?php echo $_SESSION['cargo'];?></h4>
 			</div>
 		</form>
@@ -107,6 +111,33 @@ if(!$_SESSION['logeado']==1)
 						</table>
 					</div>
 				</div>
+				<form role="form" action="procesa_objetivos.php" method="post">
+					<div class="panel panel-default">
+						<div class="panel-heading">Agregar Objetivo Principal</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<label>Descripción</label>
+								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="descripcion" class="form-control" placeholder="Ingrese una descripción">
+							</div>								
+							<div class="form-group">
+								<label>Responsable</label>
+								<select style="background-color:#fff;color:#000" name="responsable" class="form-control">
+								<?php
+								do {  
+								$nombre=utf8_encode($row_usuarios['nombre']." ".$row_usuarios['apellido_pat']);
+								$nombre_2=strtoupper($nombre);
+								$nombre_may = strtr($nombre_2, "áéíóú", "ÁÉÍÓÚ");	
+								?>
+          						<option value="<?php echo $nombre_may;?>"><?php echo $nombre_may;?></option>
+          						<?php
+								} while ($row_usuarios = mysqli_fetch_assoc($usuarios));
+								?> 
+								</select>
+							</div>
+							<button type="submit" class="btn btn-default btn-md">Ingresar</button>
+						</div>
+					</div>
+				</form>
 			</div>	
 		</div><!--/.row-->
 

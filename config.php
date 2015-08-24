@@ -8,12 +8,11 @@ function Conectarse(){
 		exit();
 	}
 
+	mysqli_query("SET NAMES utf8");
 	return $link;
 }
 
 $link = Conectarse();
-
-mysqli_set_charset($link,"utf8");
 
 mysqli_close($link);
 
