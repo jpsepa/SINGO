@@ -21,6 +21,17 @@ while($row = mysqli_fetch_array($result))
 	$estado=$row['estado'];
 
 }
+
+$sql2 = "SELECT * FROM trafico_libro WHERE id_despacho_solicitud=$id";
+
+if(!$result2 = mysqli_query($link, $sql2)) die();
+
+while($row2 = mysqli_fetch_array($result2)) 
+{ 
+	$id_trafico_libro=$row2['id'];
+	$numero_ct=$row2['numero_ct'];
+	$nombre_it=$row2['nombre_it'];
+}
 	
 //desconectamos la base de datos
 $close = mysqli_close($link) 
@@ -38,7 +49,7 @@ or die("Ha sucedido un error inexperado en la desconexion de la base de datos");
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/datepicker3.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
-<link href="img/favicon.ico" rel="icon">
+<link href="../img/favicon.ico" rel="icon">
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="css/jquery.orgchart.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap-clockpicker.min.css">
@@ -82,9 +93,7 @@ or die("Ha sucedido un error inexperado en la desconexion de la base de datos");
 			<li class="active"><a href="libro_acta.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Registrar Telegrama</a></li>
 			<li><a href="nuestro_equipo.php"><span class="glyphicon glyphicon-user"></span> Nuestro Equipo</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
+			<li><a href="objetivos.php"><span class="glyphicon glyphicon-tasks"></span> Objetivos</a></li>
 			<?php if($_SESSION['area']=='Operaciones'){ echo "<li><a href='../index.php'><span class='glyphicon glyphicon-user'></span> Regresar</a></li>";}else{ echo "<li></li>";}?>
 			<li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
 		</ul>
@@ -113,17 +122,19 @@ or die("Ha sucedido un error inexperado en la desconexion de la base de datos");
 							<form role="form" action="ingresa_libro.php" method="post">
 								<fieldset>
 								<div class="form-group">
-									<input type="hidden" name="id" value="<?php echo $id;?>">
+									<input type="hidden" name="id_solicitud" value="<?php echo $id;?>">
+									<input type="hidden" name="id_trafico_libro" value="<?php echo $id_trafico_libro;?>">
+									<br>
 									<label class="col-md-3 control-label" for="name">ID Control Tráfico:</label>
 									<div class="col-md-9">
-									<input type="text" style="background-color:#fff;color:#000;text-transform:uppercase" class="form-control" name="identificador">
+									<input type="text" style="background-color:#c1c1c1;color:#000;text-transform:uppercase" class="form-control" name="numero_ct" value="<?php echo $numero_ct;?>" readonly>
 									</div>
-									<br><br><br><br><br>
+									<br><br><br>
 									<label class="col-md-3 control-label" for="name">Fecha:</label>
 									<div class="col-md-9">
 									<input data-provide="datepicker" name="fecha" class="form-control" readonly value="<?php echo date("Y-m-d");?>">
 									</div>
-									<br><br><br><br><br>
+									<br><br><br>
 									<label class="col-md-3 control-label" for="name">Hora:</label>
 									<div class="col-md-9">
 									<input type="text" style="background-color:#fff;color:#000;cursor:pointer" id="hora" name="hora" class="hora form-control" readonly value="00:00">
@@ -136,7 +147,7 @@ or die("Ha sucedido un error inexperado en la desconexion de la base de datos");
 										clock.clockpicker('show').clockpicker('toggleView', 'minutes');
 									</script>
 									</div>
-									<br><br><br><br><br>
+									<br><br><br>
 									<label class="col-md-3 control-label" for="name">D.E.N/D.E.S:</label>
 									<div class="col-md-9">
 									<select class="form-control" style="background-color:#fff;color:#000" name="den_des">
@@ -144,55 +155,47 @@ or die("Ha sucedido un error inexperado en la desconexion de la base de datos");
 										<option value="D.E.S.">D.E.S.</option>
 									</select>
 									</div>
-									<br><br><br><br><br>
+									<br><br><br>
 									<label class="col-md-3 control-label" for="name">N° Cortada:</label>
 									<div class="col-md-9">
 									<input type="text" style="background-color:#fff;color:#000;text-transform:uppercase" class="form-control" name="ncortada">
 									</div>
-									<br><br><br><br><br>
+									<br><br><br>
 									<label class="col-md-3 control-label" for="name">Despachador:</label>
 									<div class="col-md-9">
-									<select class="form-control" style="background-color:#fff;color:#000" name="despachador">
-										<option value="DESPACHADOR 1">DESPACHADOR 1</option>
-										<option value="DESPACHADOR 2">DESPACHADOR 2</option>
-										<option value="DESPACHADOR 3">DESPACHADOR 3</option>
-										<option value="DESPACHADOR 4">DESPACHADOR 4</option>
-										<option value="DESPACHADOR 5">DESPACHADOR 5</option>
-										<option value="DESPACHADOR 6">DESPACHADOR 6</option>
-										<option value="DESPACHADOR 7">DESPACHADOR 7</option>
-									</select>
+									<input type="text" class="form-control" style="background-color:#c1c1c1;color:#000;text-transform:uppercase" name="despachador_solicitud" value="<?php echo utf8_encode($_SESSION['nombre']." ".$_SESSION['apellido_pat']);?>" readonly>
 									</div>
-									<br><br><br><br><br>
+									<br><br><br>
 									<label class="col-md-3 control-label" for="name">Cortador:</label>
 									<div class="col-md-9">
 									<input type="text" style="background-color:#fff;color:#000;text-transform:uppercase" class="form-control" name="cortador">
 									</div>
-									<br><br><br><br><br>
+									<br><br><br>
 									<label class="col-md-3 control-label" for="name">Inspector Turno:</label>
 									<div class="col-md-9">
-									<input type="text" style="background-color:#fff;color:#000;text-transform:uppercase" class="form-control" name="it">
+									<input type="text" style="background-color:#c1c1c1;color:#000;text-transform:uppercase" class="form-control" name="it" value="<?php echo $nombre_it;?>" readonly>
 									</div>
-									<br><br><br><br><br>
+									<br><br><br>
 									<label class="col-md-3 control-label" for="name">Notificador:</label>
 									<div class="col-md-9">
 									<input type="text" style="background-color:#fff;color:#000;text-transform:uppercase" class="form-control" name="notificador">
 									</div>
-									<br><br><br><br><br>
+									<br><br><br>
 									<label class="col-md-3 control-label" for="name">Descripción Trabajos:</label>
 									<div class="col-md-9">
-									<textarea style="background-color:#fff;color:#000;text-transform:uppercase" class="form-control" name="descripcion"><?php echo $descripcion;?></textarea>
+									<textarea style="background-color:#c1c1c1;color:#000;text-transform:uppercase" class="form-control" name="descripcion" readonly><?php echo $descripcion;?></textarea>
 									</div>
 									<br><br><br><br><br>
 									<label class="col-md-3 control-label" for="name">Estado:</label>
 									<div class="col-md-9">
-									<input type="text" style="background-color:#fff;color:#000;text-transform:uppercase" class="form-control" name="estado" value="<?php echo $estado;?>">
+									<input type="text" style="background-color:#c1c1c1;color:#000;text-transform:uppercase" class="form-control" name="estado" value="<?php echo $estado;?>" readonly>
 									</div>
-									<br><br><br><br><br>
+									<br><br><br>
 									<label class="col-md-3 control-label" for="name">Despachador Solicitud:</label>
 									<div class="col-md-9">
 									<input type="text" class="form-control" style="background-color:#c1c1c1;color:#000;text-transform:uppercase" name="despachador_solicitud" value="<?php echo $despachador;?>" readonly>
 									</div>
-									<br><br><br><br><br>
+									<br><br><br><br>
 									<div class="col-md-9">
 									<button type="submit" class="btn btn-primary">Ingresar Cortada</button>
 									</div>

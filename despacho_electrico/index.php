@@ -1,7 +1,7 @@
 <?php
 
 
-include "config.php";
+include "../config.php";
 
 $link = Conectarse();
 
@@ -163,9 +163,7 @@ if($cantidad_total == 0)
 			<li><a href="libro_acta.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Registrar Telegrama</a></li>
 			<li><a href="nuestro_equipo.php"><span class="glyphicon glyphicon-user"></span> Nuestro Equipo</a></li>
-			<li><a href="objetivos.php"><span class="glyphicon glyphicon-th"></span> Objetivos</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
+			<li><a href="objetivos.php"><span class="glyphicon glyphicon-tasks"></span> Objetivos</a></li>
 			<?php if($_SESSION['area']=='Operaciones'){ echo "<li><a href='../index.php'><span class='glyphicon glyphicon-user'></span> Regresar</a></li>";}else{ echo "<li></li>";}?>
 			<li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
 		</ul>

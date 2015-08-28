@@ -23,13 +23,13 @@ while($row = mysqli_fetch_array($result))
 	$id=$row['id'];
 	$desde_fecha=$row['desde_fecha'].' '.$row['desde_hora'];
 	$hasta_fecha=$row['hasta_fecha'].' '.$row['hasta_hora'];
-	$block=utf8_decode($row['block']);
-	$tipo=utf8_decode($row['tipo']);
-	$circulacion_trenes=utf8_decode($row['circulacion_trenes']);
-	$vias=utf8_decode($row['vias']);
-	$sector=utf8_decode($row['desde_sector'].' - '.$row['hasta_sector']);
-	$empresa=utf8_decode($row['empresa']);
-	$encargados=utf8_decode($row['encargados']);
+	$block=$row['block'];
+	$tipo=$row['tipo'];
+	$circulacion_trenes=$row['circulacion_trenes'];
+	$vias=$row['vias'];
+	$sector=$row['desde_sector'].' - '.$row['hasta_sector'];
+	$empresa=$row['empresa'];
+	$encargados=$row['encargados'];
 	$descripcion=$row['descripcion'];
 	$despacho="<a href='aprobar_solicitud_cortada.php?id=$id'><p style='color:#0ba007'>Aprobar</p></a><br><a href='libro_cortada.php?id=$id'><p style='color:red'>Rechazar</p></a>";
 

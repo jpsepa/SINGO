@@ -1,6 +1,6 @@
 <?php
 
-include "config.php";
+include "../config.php";
 
 $link = Conectarse();
 
@@ -86,7 +86,7 @@ session_start();
 			<div class="row col-no-gutter-container row-margin-top">
 			<div class="col-lg-12 col-no-gutter">
 				<div class="panel panel-default">
-					<div class="panel-heading">Cantidad de Cortadas Solicitadas - 2015</div>
+					<div class="panel-heading">Cantidad de Delitos Denunciados - 2015</div>
 					<div class="panel-body">
 						<div class="canvas-wrapper">
 							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>

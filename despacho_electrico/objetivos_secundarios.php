@@ -94,9 +94,7 @@ $prom_prog=$row_cumpl_prog['cumplimiento_prog'] / $total_obj_secund;
 			<li><a href="libro_acta.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Registrar Telegrama</a></li>
 			<li><a href="nuestro_equipo.php"><span class="glyphicon glyphicon-user"></span> Nuestro Equipo</a></li>
-			<li class="active"><a href="objetivos.php"><span class="glyphicon glyphicon-th"></span> Objetivos</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
+			<li class="active"><a href="objetivos.php"><span class="glyphicon glyphicon-tasks"></span> Objetivos</a></li>
 			<?php if($_SESSION['area']=='Operaciones'){ echo "<li><a href='../index.php'><span class='glyphicon glyphicon-user'></span> Regresar</a></li>";}else{ echo "<li></li>";}?>
 			<li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
 		</ul>
@@ -120,7 +118,7 @@ $prom_prog=$row_cumpl_prog['cumplimiento_prog'] / $total_obj_secund;
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading"><?php echo $row2['descripcion']; ?></div>
+					<div class="panel-heading"><?php echo utf8_encode($row2['descripcion']); ?></div>
 					<div class="panel-body">
 						<table data-toggle="table">
 						    <thead>

@@ -11,6 +11,8 @@ $id=$_GET["id"];
 $query=("SELECT * FROM despacho_solicitud_temp WHERE id='$id'");
 $result=mysqli_query($link,$query);
 
+date_default_timezone_set("America/Santiago");
+
 while($row = mysqli_fetch_array($result)) 
 { 
 	$desde_fecha=$row['desde_fecha'];
@@ -27,14 +29,16 @@ while($row = mysqli_fetch_array($result))
 	$encargados=$row['encargados'];
 	$telefonos=$row['telefonos'];
 	$descripcion=$row['descripcion'];
-	$fecha_ingreso=date("Y-m-d h:i:s");
-	$usuario=$_SESSION['nombre']." ". $_SESSION['apellido_pat'];
+	$fecha_ingreso=date("Y-m-d G:i:s");
+	$despachador=$_SESSION['nombre']." ". $_SESSION['apellido_pat'];
+	$despachador_2=strtoupper($despachador);
+	$despachador_3 = strtr($despachador_2, "áéíóú", "ÁÉÍÓÚ");
 }
 
 $query2=("INSERT INTO despacho_solicitud(desde_fecha, desde_hora, hasta_fecha, hasta_hora, block,tipo, circulacion_trenes, vias, desde_sector,
 	 hasta_sector, empresa, encargados, telefonos, descripcion, aprobacion, fecha_ingreso, despachador, estado) VALUES('$desde_fecha', '$desde_hora',
 	 '$hasta_fecha', '$hasta_hora', '$block', '$tipo', '$circulacion_trenes', '$vias', '$desde_sector', '$hasta_sector', '$empresa', '$encargados', 
-	 '$telefonos', '$descripcion','APROBADO', '$fecha_ingreso', '$usuario', 'ABIERTO')");
+	 '$telefonos', '$descripcion','APROBADO', '$fecha_ingreso', '$despachador_3', 'ABIERTO')");
 mysqli_query($link,$query2);
 
 $query3=("DELETE FROM despacho_solicitud_temp WHERE id='$id'");

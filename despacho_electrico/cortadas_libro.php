@@ -6,7 +6,8 @@ include "config.php";
 
 $link = Conectarse();
 
-$sql = "SELECT * FROM despacho_libro";
+$sql = "SELECT trafico_libro.numero_ct as numero_ct, trafico_libro.nombre_it as nombre_it, despacho_libro.fecha as fecha, despacho_libro.hora as hora, despacho_libro.den_des as den_des, despacho_libro.ncortada as ncortada, despacho_libro.cortador as cortador, despacho_libro.notificador as notificador, despacho_solicitud.despachador as despachador,
+despacho_solicitud.descripcion as descripcion, despacho_solicitud.estado as estado FROM trafico_libro, despacho_libro, despacho_solicitud WHERE despacho_solicitud.id = despacho_libro.id_solicitud";
 mysqli_set_charset($link, "utf8"); //formato de datos utf8
 
 if(!$result = mysqli_query($link, $sql)) die();
@@ -15,26 +16,21 @@ $cortadas_libro = array(); //creamos un array
 
 while($row = mysqli_fetch_array($result)) 
 { 
-	$id=$row['id'];
-	$id_ct=$row['id_ct'];
+	$numero_ct=$row['numero_ct'];
 	$fecha=$row['fecha'];
 	$hora=$row['hora'];
 	$den_des=$row['den_des'];
 	$ncortada=$row['ncortada'];
 	$despachador=$row['despachador'];
 	$cortador=$row['cortador'];
-	$inspector_turno=$row['inspector_turno'];
+	$nombre_it=$row['nombre_it'];
 	$notificador=$row['notificador'];
 	$descripcion=$row['descripcion'];
-	$nombre=$row['nombre'];
-	$fecha_sistema=$row['fecha_sistema'];
 	$estado=$row['estado'];
-	$despachador_solicitud=$row['despachador_solicitud'];
 
-	$cortadas_libro[] = array('id'=> $id, 'id_ct'=> $id_ct, 'fecha'=> $fecha, 'hora'=> $hora, 'den_des'=> $den_des, 'ncortada'=> $ncortada,
-						'despachador'=> $despachador, 'cortador'=> $cortador, 'inspector_turno'=>$inspector_turno, 'notificador'=> $notificador,
-						'descripcion'=> $descripcion, 'nombre'=> $nombre, 'fecha_sistema'=> $fecha_sistema, 'estado'=> $estado,
-						'despachador_solicitud'=> $despachador_solicitud);
+	$cortadas_libro[] = array('numero_ct'=> $numero_ct, 'fecha'=> $fecha, 'hora'=> $hora, 'den_des'=> $den_des, 'ncortada'=> $ncortada,
+						'despachador'=> $despachador, 'cortador'=> $cortador, 'nombre_it'=>$nombre_it, 'notificador'=> $notificador,
+						'descripcion'=> $descripcion, 'estado'=> $estado);
 
 }
 	

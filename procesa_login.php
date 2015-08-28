@@ -48,6 +48,10 @@ if(isset($_POST['user'])){
 			
 			header("Location: trafico");
 
+		}elseif ($_SESSION['area']=='Vigilancia') {
+			
+			header("Location: vigilancia");
+
 		}else{
 
 		header("Location: index.php");

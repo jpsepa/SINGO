@@ -18,7 +18,7 @@ $link = Conectarse();
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/datepicker3.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
-<link href="img/favicon.ico" rel="icon">
+<link href="../img/favicon.ico" rel="icon">
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="css/jquery.orgchart.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap-clockpicker.min.css">
@@ -62,9 +62,7 @@ $link = Conectarse();
 			<li class="active"><a href="libro_acta.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Registrar Telegrama</a></li>
 			<li><a href="nuestro_equipo.php"><span class="glyphicon glyphicon-user"></span> Nuestro Equipo</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
+			<li><a href="objetivos.php"><span class="glyphicon glyphicon-tasks"></span> Objetivos</a></li>
 			<?php if($_SESSION['area']=='Operaciones'){ echo "<li><a href='../index.php'><span class='glyphicon glyphicon-user'></span> Regresar</a></li>";}else{ echo "<li></li>";}?>
 			<li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
 		</ul>
@@ -94,14 +92,14 @@ $link = Conectarse();
 						<table data-toggle="table" data-url="cortadas_libro.php"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>
 						    <tr>
-						        <th data-field="id_ct" data-sortable="true">ID C.T.</th>
+						        <th data-field="numero_ct" data-sortable="true">ID C.T.</th>
 						        <th data-field="fecha" data-sortable="true">Fecha</th>
 						        <th data-field="hora" data-sortable="true">Hora</th>
 						        <th data-field="den_des" data-sortable="true">D.E.N./D.E.S.</th>
 						        <th data-field="ncortada" data-sortable="true">N° Cortada</th>
 						        <th data-field="despachador" data-sortable="true">Despachador</th>
 						        <th data-field="cortador" data-sortable="true">Cortador</th>
-						        <th data-field="inspector_turno" data-sortable="true">Inspector Turno</th>
+						        <th data-field="nombre_it" data-sortable="true">Inspector Turno</th>
 						        <th data-field="notificador" data-sortable="true">Notificador</th>
 						        <th data-field="descripcion" data-sortable="true">Descripción</th>
 						        <th data-field="estado" data-sortable="true">Estado</th>

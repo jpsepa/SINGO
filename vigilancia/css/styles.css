@@ -9,7 +9,7 @@ Version: 1.0.1
 /*Global Styles*/
 
 body {
-	background-color: #227d49;
+	background-color: #ea9607;
 	background-size: cover;
 	-webkit-background-size: cover;
 	  -moz-background-size: cover;
@@ -19,6 +19,19 @@ body {
 	color: #fff;
 }
 
+.opciones {
+	overflow:hidden;
+    text-align: center;
+    margin:auto;
+}
+
+.opcion {
+    display:inline-table;
+    padding:15px;
+    height:30%;
+    width:30%;
+    margin:3px;
+}
 /*This is the default .row style, stripped of margins*/
 .row {
 	margin: 0;
@@ -101,6 +114,27 @@ code {
 .color-orange { color: #ffb53e; }
 .color-red { color: #f9243f; }
 
+.color-green { color: #26e81e; }
+.color-green2 { color: #26e81e; }
+.color-green3 { color: #26e81e; }
+
+.color-yellow { color: #f7ff1e; }
+.color-yellow2 { color: #f7ff1e; }
+.color-yellow3 { color: #f7ff1e; }
+
+
+.color-gray2 { color: #444; }
+.color-blue2 { color: #30a5ff; }
+.color-teal2 { color: #1ebfae; }
+.color-orange2 { color: #ffb53e; }
+.color-red2 { color: #f9243f; }
+
+.color-gray3 { color: #444; }
+.color-blue3 { color: #30a5ff; }
+.color-teal3 { color: #1ebfae; }
+.color-orange3 { color: #ffb53e; }
+.color-red3 { color: #f9243f; }
+
 .bg-primary .glyphicon-remove { color: #444;}
 .bg-primary .glyphicon-remove:hover { color: #ef4040;}
 
@@ -123,8 +157,7 @@ code {
 .form-control {
 	border: 1px solid rgba(255, 255, 255, .1);
 	box-shadow: none;
-	background: rgba(255, 255, 255, 1);
-	width: 50%;
+	background: rgba(255, 255, 255, .1);
 }
 
 select.form-control {
@@ -134,7 +167,7 @@ select.form-control {
 .form-control:focus {
 	border: 1px solid rgba(255, 255, 255, .2);
 	box-shadow: none!important;
-	background: rgba(255, 255, 255, 1);
+	background: rgba(255, 255, 255, .2);
 	color: #fff;
 	outline: 0;
 }
@@ -605,7 +638,15 @@ a.bg-danger:hover {
 .panel-blue .panel-body p,
 .panel-teal .panel-body p,
 .panel-orange .panel-body p,
-.panel-red .panel-body p { 
+.panel-red .panel-body p,
+.panel-blue2 .panel-body p,
+.panel-teal2 .panel-body p,
+.panel-orange2 .panel-body p,
+.panel-red2 .panel-body p,
+.panel-blue3 .panel-body p,
+.panel-teal3 .panel-body p,
+.panel-orange3 .panel-body p,
+.panel-red3 .panel-body p { 
 	color: #fff; 
 	color: rgba(255, 255, 255, .8);
 }
@@ -617,10 +658,40 @@ a.bg-danger:hover {
 	border-bottom: 1px solid rgba(255, 255, 255, .2);
 }
 
+.panel-blue2 .panel-heading,
+.panel-teal2 .panel-heading,
+.panel-orange2 .panel-heading,
+.panel-red2 .panel-heading {
+	border-bottom: 1px solid rgba(255, 255, 255, .2);
+}
+
+.panel-blue3 .panel-heading,
+.panel-teal3 .panel-heading,
+.panel-orange3 .panel-heading,
+.panel-red3 .panel-heading {
+	border-bottom: 1px solid rgba(255, 255, 255, .2);
+}
+
 .panel-blue .text-muted,
 .panel-teal .text-muted,
 .panel-orange .text-muted,
 .panel-red .text-muted {
+	color: #ccc;
+	color: rgba(255, 255, 255, .5); 
+}
+
+.panel-blue2 .text-muted,
+.panel-teal2 .text-muted,
+.panel-orange2 .text-muted,
+.panel-red2 .text-muted {
+	color: #ccc;
+	color: rgba(255, 255, 255, .5); 
+}
+
+.panel-blue3 .text-muted,
+.panel-teal3 .text-muted,
+.panel-orange3 .text-muted,
+.panel-red3 .text-muted {
 	color: #ccc;
 	color: rgba(255, 255, 255, .5); 
 }
@@ -670,6 +741,16 @@ a.bg-danger:hover {
 .panel-teal .widget-left { background: #1ebfae; color: #fff; }
 .panel-orange .widget-left { background: #ffb53e; color: #fff; }
 .panel-red .widget-left { background: #f9243f; color: #fff; }
+
+.panel-blue2 .widget-left { background: #30a5ff; color: #fff; }
+.panel-teal2 .widget-left { background: #1ebfae; color: #fff; }
+.panel-orange2 .widget-left { background: #ffb53e; color: #fff; }
+.panel-red2 .widget-left { background: #f9243f; color: #fff; }
+
+.panel-blue3 .widget-left { background: #30a5ff; color: #fff; }
+.panel-teal3 .widget-left { background: #1ebfae; color: #fff; }
+.panel-orange3 .widget-left { background: #ffb53e; color: #fff; }
+.panel-red3 .widget-left { background: #f9243f; color: #fff; }
 
 .widget-left {
 	background: rgba(255, 255, 255, 0.1)!important;
@@ -964,6 +1045,27 @@ h1.page-header {
 #easypiechart-orange .percent { color: #ffb53e;}
 #easypiechart-red .percent { color: #ef4040;}
 
+#easypiechart-green .percent { color: #26e81e;}
+#easypiechart-green2 .percent { color: #26e81e;}
+#easypiechart-green3 .percent { color: #26e81e;}
+#easypiechart-green4 .percent { color: #26e81e;}
+#easypiechart-green5 .percent { color: #26e81e;}
+
+#easypiechart-yellow .percent { color: #f7ff1e;}
+#easypiechart-yellow2 .percent { color: #f7ff1e;}
+#easypiechart-yellow3 .percent { color: #f7ff1e;}
+#easypiechart-yellow4 .percent { color: #f7ff1e;}
+
+#easypiechart-blue2 .percent { color: #30a5ff;}
+#easypiechart-teal2 .percent { color: #1ebfae;}
+#easypiechart-orange2 .percent { color: #ffb53e;}
+#easypiechart-red2 .percent { color: #ef4040;}
+
+#easypiechart-blue3 .percent { color: #30a5ff;}
+#easypiechart-teal3 .percent { color: #1ebfae;}
+#easypiechart-orange3 .percent { color: #ffb53e;}
+#easypiechart-red3 .percent { color: #ef4040;}
+
 /*Calendar Widget*/
 
 #calendar, .datepicker-inline {
@@ -1009,7 +1111,7 @@ h1.page-header {
 }
 
 .datepicker tr:hover {
-	color: #013781;
+	color: #0065ad;
 }
 
 .datepicker table tr td span:hover,

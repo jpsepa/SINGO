@@ -72,7 +72,9 @@ $sql = mysqli_query($link, $dat);
 			<li><a href="libro_acta.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Registrar Telegrama</a></li>
 			<li><a href="nuestro_equipo.php"><span class="glyphicon glyphicon-user"></span> Nuestro Equipo</a></li>
-			<li><a href="objetivos.php"><span class="glyphicon glyphicon-tasks"></span> Objetivos</a></li>
+			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
+			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
+			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
 			<?php if($_SESSION['area']=='Operaciones'){ echo "<li><a href='../index.php'><span class='glyphicon glyphicon-user'></span> Regresar</a></li>";}else{ echo "<li></li>";}?>
 			<li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
 		</ul>
@@ -96,6 +98,12 @@ $sql = mysqli_query($link, $dat);
 		
 		<div class="row">
 			<div class="col-lg-12">
+			<center>
+			<div id='error' class='alert bg-danger' style='width:100%;text-align:left' role='alert'>
+				<span class='glyphicon glyphicon-exclamation-sign'></span> Debe llenar todos los campos
+				<a href='#' onclick='ocultar()' class='pull-right'><span class='glyphicon glyphicon-remove'></span></a>
+			</div>
+			</center>
 			<a href="cortadas_solicitadas.php" type="submit" style="background:#0065ad" class="btn btn-primary">Revisa Aquí Las Cortadas Solicitadas</a><br><br>
 				<div class="panel panel-default">
 					<div class="panel-heading">Seleccione archivo con las cortadas del contratista</div>
@@ -122,11 +130,7 @@ $sql = mysqli_query($link, $dat);
 
 								if (copy($_FILES['excel']['tmp_name'],$destino))
 								{
-									echo '<script type="text/javascript">
-           								window.location = "/SINGO/despacho_electrico/solicitud_cortada_temp.php"
-     									</script>';
-									
-
+									echo "Archivo cargado exitosamente. ";
 								}else{
 									echo "Error al cargar el archivo. ";
 								}
@@ -176,12 +180,6 @@ $sql = mysqli_query($link, $dat);
 										$fechaD=PHPExcel_Shared_Date::ExcelToPHP($D);
 										$dateD=date('H:i:s',$fechaD);
 
-										$H = utf8_decode($H);
-
-										$L = utf8_decode($L);
-
-										$N = utf8_decode($N);
-
 										mysqli_query($cn,"INSERT INTO despacho_solicitud_temp (desde_fecha,desde_hora,hasta_fecha,hasta_hora,
 												block,tipo,circulacion_trenes,vias,desde_sector,hasta_sector,empresa,encargados,telefonos,descripcion) VALUES ('$dateA','$dateB','$dateC','$dateD','$E',
 												'$F','$G','$H','$I','$J','$K','$L','$M','$N')");
@@ -200,7 +198,7 @@ $sql = mysqli_query($link, $dat);
 									}
 
 									$totalingresos=$contador-1;
-									
+									header("Location: solicitud_cortada_temp.php");
 
 								}else{
 
@@ -209,7 +207,6 @@ $sql = mysqli_query($link, $dat);
 								}
 
 								unlink($destino);
-								
 
 							}
 						?>
@@ -346,10 +343,10 @@ $sql = mysqli_query($link, $dat);
 									<label class="col-md-3 control-label" for="name">Aprobación Despacho Eléctrico:</label>
 									<div class="col-md-9">
 										<label>
-											<input type="radio" name="aprobacion" id="si" value="APROBADO" checked> Si
+											<input type="radio" name="aprobacion" id="si" value="SI" checked> Si
 										</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<label>
-											<input type="radio" name="aprobacion" id="no" value="RECHAZADO"> No
+											<input type="radio" name="aprobacion" id="no" value="NO"> No
 										</label>
 									</div>
 								</div>
