@@ -1,4 +1,19 @@
+<?php
 
+//JUNIO
+$query = "SELECT COUNT(*) AS total_junio FROM `vigilancia_antecedentes` WHERE `fecha` BETWEEN '2015-06-01' AND '2015-06-31'";
+
+$result = mysqli_query($query);
+
+$data = mysqli_fetch_assoc($result);
+
+$valor_junio = $data['total_junio'];
+
+mysql_close();
+
+?>
+
+<script type="text/javascript">
 
 var randomScalingFactor = function(){ return Math.round(Math.random()*10)};
 	
@@ -13,7 +28,7 @@ var randomScalingFactor = function(){ return Math.round(Math.random()*10)};
 					pointStrokeColor : "#fff",
 					pointHighlightFill : "#fff",
 					pointHighlightStroke : "rgba(48, 164, 255, 1)",
-					data : [1,randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+					data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
 				}
 			]
 
@@ -155,3 +170,4 @@ var randomScalingFactor = function(){ return Math.round(Math.random()*10)};
 		
 	];
 
+</script>

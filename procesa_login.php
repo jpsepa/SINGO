@@ -36,6 +36,8 @@ if(isset($_POST['user'])){
 
 		$_SESSION['cargo']=$row['cargo'];
 
+		$_SESSION['email']=$row['email'];
+
 		$_SESSION['area']=$row['area'];
 
 		$_SESSION['logeado']=1;

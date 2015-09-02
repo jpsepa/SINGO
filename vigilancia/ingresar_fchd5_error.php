@@ -6,14 +6,9 @@ $link = Conectarse();
 
 session_start();
 
-//JUNIO
-$query = "SELECT COUNT(*) AS total_junio FROM `vigilancia_antecedentes` WHERE `fecha` BETWEEN '2015-06-01' AND '2015-06-31'";
+date_default_timezone_set("America/Santiago");
 
-$result = mysqli_query($query);
-
-$data = mysqli_fetch_assoc($result);
-
-$valor_junio = $data['total_junio'];
+$id = $_GET["id"];
 
 ?>
 
@@ -63,8 +58,8 @@ $valor_junio = $data['total_junio'];
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li class="active"><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-			<li><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
+			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
+			<li class="active"><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-book"></span> #</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-envelope"></span> #</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
@@ -87,6 +82,7 @@ $valor_junio = $data['total_junio'];
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Vigilancia</h1>
+				<h2 class="page-header">Formulario de Comunicación de Hechos Delictuales</h2>
 			</div>
 		</div><!--/.row-->
 		
@@ -94,15 +90,42 @@ $valor_junio = $data['total_junio'];
 
 			<div class="row col-no-gutter-container row-margin-top">
 			<div class="col-lg-12 col-no-gutter">
-				<div class="panel panel-default">
-					<div class="panel-heading">Cantidad de Delitos Denunciados - 2015</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+			<center>
+			<div id='error' class='alert bg-danger' style='width:100%;text-align:left' role='alert'>
+				<span class='glyphicon glyphicon-exclamation-sign'></span> DEBE LLENAR COMO MÍNIMO EL NOMBRE Y CARGO
+			</div>
+			</center>
+				<form role="form" action="procesa_fchd5.php" method="post">
+					<div class="panel panel-default">
+						<div class="panel-heading">Fiscalía</div>
+						<div class="panel-body">
+							<input type="hidden" style="background-color:#fff;color:#000;text-transform:uppercase" name="id" class="form-control" value="<?php echo $id;?>">
+							<div class="form-group">
+								<label>Nombre</label>
+								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="nombre" type="text" class="form-control" placeholder="Ingrese el nombre del funcionario de Fiscalía">
+							</div>								
+							<div class="form-group">
+								<label>Cargo</label>
+								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="cargo" type="text" class="form-control" placeholder="Ingrese el cargo del funcionario de Fiscalía">
+							</div>
+							<div class="form-group">
+								<label>Teléfono Oficina</label>
+								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="telefono" type="text" class="form-control" placeholder="Ingrese el teléfono del funcionario de Fiscalía">
+							</div>
+							<div class="form-group">
+								<label>Celular</label>
+								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="celular" type="text" class="form-control" placeholder="Ingrese el celular del funcionario de Fiscalía">
+							</div>
+							<div class="form-group">
+								<label>E-mail</label>
+								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="email" type="text" class="form-control" placeholder="Ingrese el e-mail del funcionario de Fiscalía">
+							</div>
+							<button type="submit" class="btn btn-default btn-md">Siguiente</button>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
+			<a href="finalizar.php?id=<?php echo $id;?>" style="background-color:#00327a" class="btn btn-default btn-md">Haga Click Aquí Si No Desea Agregar Datos Fiscalía</a>
 		</div><!--/.row-->
 
 		</div>
@@ -124,22 +147,12 @@ $valor_junio = $data['total_junio'];
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/chart.min.js"></script>
 	<script src="js/chart-data.js"></script>
+	<script src="js/easypiechart.js"></script>
+	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="js/bootstrap-table.js"></script>
-
-	<script>
-	window.onload = function(){ 
-		var chart1 = document.getElementById("line-chart").getContext("2d");
-		window.myLine = new Chart(chart1).Line(lineChartData, {
-			responsive : true,  
-			scaleLineColor: "rgba(255,255,255,.2)", 
-			scaleGridLineColor: "rgba(255,255,255,.05)", 
-			scaleFontColor: "#ffffff"
-		});
-		
-	};
-	</script>
+	
 </body>
 
 </html>

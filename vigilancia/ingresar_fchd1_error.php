@@ -6,14 +6,7 @@ $link = Conectarse();
 
 session_start();
 
-//JUNIO
-$query = "SELECT COUNT(*) AS total_junio FROM `vigilancia_antecedentes` WHERE `fecha` BETWEEN '2015-06-01' AND '2015-06-31'";
-
-$result = mysqli_query($query);
-
-$data = mysqli_fetch_assoc($result);
-
-$valor_junio = $data['total_junio'];
+date_default_timezone_set("America/Santiago");
 
 ?>
 
@@ -63,8 +56,8 @@ $valor_junio = $data['total_junio'];
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li class="active"><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-			<li><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
+			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
+			<li class="active"><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-book"></span> #</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-envelope"></span> #</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
@@ -87,6 +80,7 @@ $valor_junio = $data['total_junio'];
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Vigilancia</h1>
+				<h2 class="page-header">Formulario de Comunicación de Hechos Delictuales</h2>
 			</div>
 		</div><!--/.row-->
 		
@@ -94,14 +88,39 @@ $valor_junio = $data['total_junio'];
 
 			<div class="row col-no-gutter-container row-margin-top">
 			<div class="col-lg-12 col-no-gutter">
-				<div class="panel panel-default">
-					<div class="panel-heading">Cantidad de Delitos Denunciados - 2015</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+			<center>
+			<div id='error' class='alert bg-danger' style='width:100%;text-align:left' role='alert'>
+				<span class='glyphicon glyphicon-exclamation-sign'></span> DEBE LLENAR TODOS LOS CAMPOS
+			</div>
+			</center>
+				<form role="form" action="procesa_fchd1.php" method="post">
+					<div class="panel panel-default">
+						<div class="panel-heading">Denunciante</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<label>Fecha</label>
+								<input style="background-color:#fff;color:#000" name="fecha" class="form-control" readonly="true" value="<?php echo date("Y-m-d G:i:s"); ?>">
+							</div>								
+							<div class="form-group">
+								<label>Nombre del Denunciante</label>
+								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="nombre_denunciante" class="form-control" placeholder="Ingrese un Nombre">
+							</div>
+							<div class="form-group">
+								<label>Cédula de Identidad del Denunciante</label>
+								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="cedula_denunciante" class="form-control" placeholder="Ingrese un Número de Cédula Ej: 9.999.999-9">
+							</div>
+							<div class="form-group">
+								<label>Domicilio del Denunciante</label>
+								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="domicilio_denunciante" class="form-control" placeholder="Ingrese una Dirección">
+							</div>
+							<div class="form-group">
+								<label>Teléfono del Denunciante</label>
+								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="telefono_denunciante" class="form-control" placeholder="Ingrese un Número de Teléfono">
+							</div>
+							<button type="submit" class="btn btn-default btn-md">Siguiente</button>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div><!--/.row-->
 
@@ -124,22 +143,12 @@ $valor_junio = $data['total_junio'];
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/chart.min.js"></script>
 	<script src="js/chart-data.js"></script>
+	<script src="js/easypiechart.js"></script>
+	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="js/bootstrap-table.js"></script>
-
-	<script>
-	window.onload = function(){ 
-		var chart1 = document.getElementById("line-chart").getContext("2d");
-		window.myLine = new Chart(chart1).Line(lineChartData, {
-			responsive : true,  
-			scaleLineColor: "rgba(255,255,255,.2)", 
-			scaleGridLineColor: "rgba(255,255,255,.05)", 
-			scaleFontColor: "#ffffff"
-		});
-		
-	};
-	</script>
+	
 </body>
 
 </html>

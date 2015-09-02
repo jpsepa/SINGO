@@ -6,14 +6,9 @@ $link = Conectarse();
 
 session_start();
 
-//JUNIO
-$query = "SELECT COUNT(*) AS total_junio FROM `vigilancia_antecedentes` WHERE `fecha` BETWEEN '2015-06-01' AND '2015-06-31'";
+date_default_timezone_set("America/Santiago");
 
-$result = mysqli_query($query);
-
-$data = mysqli_fetch_assoc($result);
-
-$valor_junio = $data['total_junio'];
+$id = $_GET["id"];
 
 ?>
 
@@ -63,8 +58,8 @@ $valor_junio = $data['total_junio'];
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li class="active"><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-			<li><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
+			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
+			<li class="active"><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-book"></span> #</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-envelope"></span> #</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
@@ -87,6 +82,7 @@ $valor_junio = $data['total_junio'];
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Vigilancia</h1>
+				<h2 class="page-header">Formulario de Comunicación de Hechos Delictuales</h2>
 			</div>
 		</div><!--/.row-->
 		
@@ -94,14 +90,33 @@ $valor_junio = $data['total_junio'];
 
 			<div class="row col-no-gutter-container row-margin-top">
 			<div class="col-lg-12 col-no-gutter">
-				<div class="panel panel-default">
-					<div class="panel-heading">Cantidad de Delitos Denunciados - 2015</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper">
-							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+				<form role="form" action="procesa_fchd3.php" method="post">
+					<div class="panel panel-default">
+						<div class="panel-heading">Hechos</div>
+						<div class="panel-body">
+							<input type="hidden" style="background-color:#fff;color:#000;text-transform:uppercase" name="id" class="form-control" value="<?php echo $id;?>">
+							<div class="form-group">
+								<label>Circunstancias</label>
+								<textarea style="background-color:#fff;color:#000;text-transform:uppercase" name="circunstancias" type="text" class="form-control"></textarea>
+							</div>								
+							<div class="form-group">
+								<label>Testigos</label>
+								<select class="form-control" style="background-color:#fff;color:#000" name="testigos">
+									<option value="SI">SI</option>
+									<option value="NO">NO</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Avalúo Especies</label>
+								<select class="form-control" style="background-color:#fff;color:#000" name="avaluo_especies">
+									<option value="SI">SI</option>
+									<option value="NO">NO</option>
+								</select>
+							</div>
+							<button type="submit" class="btn btn-default btn-md">Siguiente</button>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div><!--/.row-->
 
@@ -124,22 +139,12 @@ $valor_junio = $data['total_junio'];
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/chart.min.js"></script>
 	<script src="js/chart-data.js"></script>
+	<script src="js/easypiechart.js"></script>
+	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="js/bootstrap-table.js"></script>
-
-	<script>
-	window.onload = function(){ 
-		var chart1 = document.getElementById("line-chart").getContext("2d");
-		window.myLine = new Chart(chart1).Line(lineChartData, {
-			responsive : true,  
-			scaleLineColor: "rgba(255,255,255,.2)", 
-			scaleGridLineColor: "rgba(255,255,255,.05)", 
-			scaleFontColor: "#ffffff"
-		});
-		
-	};
-	</script>
+	
 </body>
 
 </html>
