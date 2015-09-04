@@ -9,15 +9,15 @@ $link = Conectarse();
 $id = $_POST["id"];
 
 $nombre = strtoupper($_POST["nombre"]);
-$nombre_2 = strtr($nombre, "áéíóú", "ÁÉÍÓÚ");
+$nombre_2 = strtr($nombre, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $cedula_identidad = $_POST["cedula_identidad"];
 
 $ocupacion = strtoupper($_POST["ocupacion"]);
-$ocupacion_2 = strtr($ocupacion, "áéíóú", "ÁÉÍÓÚ");
+$ocupacion_2 = strtr($ocupacion, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $domicilio = strtoupper($_POST["domicilio"]);
-$domicilio_2 = strtr($domicilio, "áéíóú", "ÁÉÍÓÚ");
+$domicilio_2 = strtr($domicilio, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 if ($nombre=="" or $cedula_identidad=="" or $ocupacion=="" or $domicilio=="")
 {

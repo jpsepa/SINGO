@@ -6,9 +6,13 @@ $link = Conectarse();
 
 session_start();
 
-date_default_timezone_set("America/Santiago");
+$sql = "SELECT vigilancia_denunciante.id AS id, vigilancia_denunciante.nombre AS nombre_denunciante, vigilancia_denunciante.domicilio
+AS domicilio_denunciante,  vigilancia_antecedentes.fecha AS fecha, vigilancia_antecedentes.hora AS hora, 
+vigilancia_antecedentes.comuna_sector AS comuna_sector, vigilancia_antecedentes.pk AS pk, 
+vigilancia_antecedentes.unidad_policial AS unidad_policial
+FROM vigilancia_denunciante, vigilancia_antecedentes WHERE vigilancia_denunciante.id=vigilancia_antecedentes.id_denunciante";
 
-$id = $_GET["id"];
+if(!$result = mysqli_query($link, $sql)) die();
 
 ?>
 
@@ -59,8 +63,8 @@ $id = $_GET["id"];
 		</form>
 		<ul class="nav menu">
 			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-			<li class="active"><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
-			<li><a href="consultar_hecho_delictual.php"><span class="glyphicon glyphicon-question-sign"></span>Consultar Hechos Delictuales</a></li>
+			<li><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
+			<li class="active"><a href="consultar_hecho_delictual.php"><span class="glyphicon glyphicon-question-sign"></span>Consultar Hechos Delictuales</a></li>
 			<li><a href="objetivos.php"><span class="glyphicon glyphicon-tasks"></span> Objetivos</a></li>
 			<?php if($_SESSION['area']=='Operaciones'){ echo "<li><a href='../index.php'><span class='glyphicon glyphicon-user'></span> Regresar</a></li>";}else{ echo "<li></li>";}?>
 			<li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
@@ -71,14 +75,14 @@ $id = $_GET["id"];
 		<div class="row">
 			<ul class="breadcrumb">
 				<li><a href="index.php"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active">Inicio</li>
+				<li class="active">Consultar Hechos Delictuales</li>
 			</ul>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Vigilancia</h1>
-				<h2 class="page-header">Formulario de Comunicación de Hechos Delictuales</h2>
+				<h2 class="page-header">Consultar Hechos Delictuales</h2>
 			</div>
 		</div><!--/.row-->
 		
@@ -86,33 +90,43 @@ $id = $_GET["id"];
 
 			<div class="row col-no-gutter-container row-margin-top">
 			<div class="col-lg-12 col-no-gutter">
-				<form role="form" action="procesa_fchd4.php" method="post">
-					<div class="panel panel-default">
-						<div class="panel-heading">Imputados</div>
-						<div class="panel-body">
-							<input type="hidden" style="background-color:#fff;color:#000;text-transform:uppercase" name="id" class="form-control" value="<?php echo $id;?>">
-							<div class="form-group">
-								<label>Nombre</label>
-								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="nombre" type="text" class="form-control" placeholder="Ingrese el nombre del imputado">
-							</div>								
-							<div class="form-group">
-								<label>Cédula de Identidad</label>
-								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="cedula_identidad" type="text" class="form-control" placeholder="Ingrese la cédula de identidad del imputado">
-							</div>
-							<div class="form-group">
-								<label>Ocupación</label>
-								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="ocupacion" type="text" class="form-control" placeholder="Ingrese la ocupación del imputado">
-							</div>
-							<div class="form-group">
-								<label>Domicilio</label>
-								<input style="background-color:#fff;color:#000;text-transform:uppercase" name="domicilio" type="text" class="form-control" placeholder="Ingrese el domicilio del imputado">
-							</div>
-							<button type="submit" class="btn btn-default btn-md">Agregar Imputado</button>
-						</div>
+			<form method="post" action="resultado_hecho_delictual.php">
+				<label>Buscar Hechos Delictuales Desde: <input data-provide="datepicker" type="text" style="text-align:center" readonly="true" name="fecha_desde"> Hasta: <input data-provide="datepicker" style="text-align:center" readonly="true" type="text" name="fecha_hasta"></label>&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="background:#0065ad" class="btn btn-default btn-md">Buscar</button><br><br>
+			</form>
+				<div class="panel panel-default">
+					<div class="panel-heading">Listado de Hechos Delictuales</div>
+					<div class="panel-body">
+						<table data-toggle="table">
+						    <thead>
+						    <tr>
+						        <th>Fecha y Hora del Hecho</th>
+						        <th>Nombre Denunciante</th>
+						        <th>Domicilio Denunciante</th>
+						        <th>Comuna/Sector Ocurrido el Hecho</th>
+						        <th>P.K. Ocurrido el Hecho</th>
+						        <th>Unidad Policial</th>
+						        <th></th>
+						    </tr>
+						    </thead>
+						    <?php
+						    while($row = mysqli_fetch_array($result)) 
+							{
+								$id = $row["id"];
+								echo "<tr>
+								<td>".$row["fecha"]." ".$row["hora"]."</td>
+								<td>".utf8_encode($row["nombre_denunciante"])."</td>
+								<td>".utf8_encode($row["domicilio_denunciante"])."</td>
+								<td>".utf8_encode($row["comuna_sector"])."</td>
+								<td>".utf8_encode($row["pk"])."</td>
+								<td>".utf8_encode($row["unidad_policial"])."</td>
+								<td><a href='detalle_hecho_delictual.php?id=$id'><span class='glyphicon glyphicon-sunglasses'></span>Detalle</a></td>
+								</tr>";
+							}
+							?>
+						</table>
 					</div>
-				</form>
+				</div>
 			</div>
-			<a href="ingresar_fchd5.php?id=<?php echo $id;?>" style="background-color:#00327a" class="btn btn-default btn-md">Haga Click Aquí Si No Desea Agregar Imputados</a>
 		</div><!--/.row-->
 
 		</div>
@@ -134,12 +148,22 @@ $id = $_GET["id"];
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/chart.min.js"></script>
 	<script src="js/chart-data.js"></script>
-	<script src="js/easypiechart.js"></script>
-	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="js/bootstrap-table.js"></script>
-	
+
+	<script>
+	window.onload = function(){ 
+		var chart1 = document.getElementById("line-chart").getContext("2d");
+		window.myLine = new Chart(chart1).Line(lineChartData, {
+			responsive : true,  
+			scaleLineColor: "rgba(255,255,255,.2)", 
+			scaleGridLineColor: "rgba(255,255,255,.05)", 
+			scaleFontColor: "#ffffff"
+		});
+		
+	};
+	</script>
 </body>
 
 </html>

@@ -9,7 +9,7 @@ $link = Conectarse();
 $id = $_POST["id"];
 
 $circunstancias = strtoupper($_POST["circunstancias"]);
-$circunstancias_2 = strtr($circunstancias, "áéíóú", "ÁÉÍÓÚ");
+$circunstancias_2 = strtr($circunstancias, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $testigos = $_POST["testigos"];
 

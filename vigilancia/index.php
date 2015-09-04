@@ -65,12 +65,8 @@ $valor_junio = $data['total_junio'];
 		<ul class="nav menu">
 			<li class="active"><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
 			<li><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-book"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-envelope"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-th"></span> #</a></li>
+			<li><a href="consultar_hecho_delictual.php"><span class="glyphicon glyphicon-question-sign"></span>Consultar Hechos Delictuales</a></li>
+			<li><a href="objetivos.php"><span class="glyphicon glyphicon-tasks"></span> Objetivos</a></li>
 			<?php if($_SESSION['area']=='Operaciones'){ echo "<li><a href='../index.php'><span class='glyphicon glyphicon-user'></span> Regresar</a></li>";}else{ echo "<li></li>";}?>
 			<li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
 		</ul>

@@ -11,7 +11,7 @@ $id = $_POST["id"];
 $region = $_POST["region"];
 
 $comuna_sector = strtoupper($_POST["comuna_sector"]);
-$comuna_sector_2 = strtr($comuna_sector, "áéíóú", "ÁÉÍÓÚ");
+$comuna_sector_2 = strtr($comuna_sector, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $pk = strtoupper($_POST["pk"]);
 $pk_2 = strtr($pk, "áéíóú", "ÁÉÍÓÚ");
@@ -21,22 +21,22 @@ $fecha = $_POST["fecha"];
 $hora = $_POST["hora"];
 
 $numero_parte = strtoupper($_POST["numero_parte"]);
-$numero_parte_2 = strtr($numero_parte, "áéíóú", "ÁÉÍÓÚ");
+$numero_parte_2 = strtr($numero_parte, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $unidad_policial = strtoupper($_POST["unidad_policial"]);
-$unidad_policial_2 = strtr($unidad_policial, "áéíóú", "ÁÉÍÓÚ");
+$unidad_policial_2 = strtr($unidad_policial, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $fiscalia_mp = strtoupper($_POST["fiscalia_mp"]);
-$fiscalia_mp_2 = strtr($fiscalia_mp, "áéíóú", "ÁÉÍÓÚ");
+$fiscalia_mp_2 = strtr($fiscalia_mp, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $tribunal = strtoupper($_POST["tribunal"]);
-$tribunal_2 = strtr($tribunal, "áéíóú", "ÁÉÍÓÚ");
+$tribunal_2 = strtr($tribunal, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $ruc = strtoupper($_POST["ruc"]);
-$ruc_2 = strtr($ruc, "áéíóú", "ÁÉÍÓÚ");
+$ruc_2 = strtr($ruc, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $rit = strtoupper($_POST["rit"]);
-$rit_2 = strtr($rit, "áéíóú", "ÁÉÍÓÚ");
+$rit_2 = strtr($rit, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 if ($region=="" or $comuna_sector=="" or $pk=="" or $fecha=="" or $hora=="" or $numero_parte=="" or $unidad_policial=="" or $fiscalia_mp=="")
 {

@@ -10,12 +10,6 @@ date_default_timezone_set("America/Santiago");
 
 $id = $_GET["id"];
 
-$nombre_informe = $_SESSION["nombre"]." ".$_SESSION["apellido_pat"];
-$nombre_informe2 = strtoupper($nombre_informe);
-
-$cargo = $_SESSION["cargo"];
-$cargo2 = strtoupper($cargo);
-
 $sql_denunciante = "SELECT * FROM vigilancia_denunciante WHERE id='$id'";
 mysqli_set_charset($link, "utf8"); //formato de datos utf8
 
@@ -159,8 +153,8 @@ if(!$result_imputados = mysqli_query($link, $sql_imputados)) die();
 		</form>
 		<ul class="nav menu">
 			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-			<li class="active"><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
-			<li><a href="consultar_hecho_delictual.php"><span class="glyphicon glyphicon-question-sign"></span>Consultar Hechos Delictuales</a></li>
+			<li><a href="ingresar_fchd1.php"><span class="glyphicon glyphicon-tags"></span> Registrar Hecho Delictual</a></li>
+			<li class="active"><a href="consultar_hecho_delictual.php"><span class="glyphicon glyphicon-question-sign"></span>Consultar Hechos Delictuales</a></li>
 			<li><a href="objetivos.php"><span class="glyphicon glyphicon-tasks"></span> Objetivos</a></li>
 			<?php if($_SESSION['area']=='Operaciones'){ echo "<li><a href='../index.php'><span class='glyphicon glyphicon-user'></span> Regresar</a></li>";}else{ echo "<li></li>";}?>
 			<li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Desconectarse</a></li>
@@ -171,14 +165,15 @@ if(!$result_imputados = mysqli_query($link, $sql_imputados)) die();
 		<div class="row">
 			<ul class="breadcrumb">
 				<li><a href="index.php"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active">Inicio</li>
+				<li><a href="consultar_hecho_delictual.php">Consultar Hechos Delictuales</a></li>
+				<li class="active">Detalle Hecho Delictual</li>
 			</ul>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Vigilancia</h1>
-				<h2 class="page-header">Resumen Hecho Delictual Número <?php echo $id; ?></h2>
+				<h2 class="page-header">Detalle Hecho Delictual Número <?php echo $id; ?></h2>
 			</div>
 		</div><!--/.row-->
 		
@@ -327,24 +322,6 @@ if(!$result_imputados = mysqli_query($link, $sql_imputados)) die();
 							<tr>
   								<td>E-mail:</td>
   								<td><?php echo $email_fiscalia;?></td>
-							</tr>
-						</table>
-						</div>
-						<br>
-						<div class="panel-heading">Generador del Informe</div>
-						<div class="panel-body">
-						<table>
-							<tr>
-  								<td style="width:227px">Nombre:</td>
-  								<td><?php echo $nombre_informe2;?></td>
-							</tr>
-							<tr>
-  								<td>Cargo:</td>
-  								<td><?php echo $cargo2;?></td>
-							</tr>
-							<tr>
-  								<td>Email:</td>
-  								<td><?php echo $_SESSION["email"];?></td>
 							</tr>
 						</table>
 						</div>

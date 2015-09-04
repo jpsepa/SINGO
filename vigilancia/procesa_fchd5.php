@@ -9,10 +9,10 @@ $link = Conectarse();
 $id = $_POST["id"];
 
 $nombre = strtoupper($_POST["nombre"]);
-$nombre_2 = strtr($nombre, "áéíóú", "ÁÉÍÓÚ");
+$nombre_2 = strtr($nombre, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $cargo = strtoupper($_POST["cargo"]);
-$cargo_2 = strtr($cargo, "áéíóú", "ÁÉÍÓÚ");
+$cargo_2 = strtr($cargo, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $telefono = $_POST["telefono"];
 

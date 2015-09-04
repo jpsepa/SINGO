@@ -9,12 +9,12 @@ $link = Conectarse();
 $fecha = $_POST["fecha"];
 
 $nombre_denunciante = strtoupper($_POST["nombre_denunciante"]);
-$nombre_denunciante_2 = strtr($nombre_denunciante, "áéíóú", "ÁÉÍÓÚ");	
+$nombre_denunciante_2 = strtr($nombre_denunciante, "ñáéíóú", "ÑÁÉÍÓÚ");	
 
 $cedula_denunciante = $_POST["cedula_denunciante"];
 
 $domicilio_denunciante = strtoupper($_POST["domicilio_denunciante"]);
-$domicilio_denunciante_2 = strtr($domicilio_denunciante, "áéíóú", "ÁÉÍÓÚ");
+$domicilio_denunciante_2 = strtr($domicilio_denunciante, "ñáéíóú", "ÑÁÉÍÓÚ");
 
 $telefono_denunciante = $_POST["telefono_denunciante"];
 
