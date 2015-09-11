@@ -6,12 +6,11 @@ include "../config.php";
 
 $link = Conectarse();
 
-mysql_query("SET NAMES 'utf8'");
+date_default_timezone_set("America/Santiago");
 
-session_start();
+$categorias=mysqli_query($link, "SELECT * FROM despacho_categorias ORDER BY nombre_categoria ASC");
 
-if(!$_SESSION['logeado']==1)
-	header("Location: ../login.php");
+$ingreso=$_GET['ingreso'];
 
 ?>
 
@@ -25,7 +24,7 @@ if(!$_SESSION['logeado']==1)
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/datepicker3.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
-<link href="img/favicon.ico" rel="icon">
+<link href="../img/favicon.ico" rel="icon">
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="css/jquery.orgchart.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap-clockpicker.min.css">
@@ -65,10 +64,10 @@ if(!$_SESSION['logeado']==1)
 		</form>
 		<ul class="nav menu">
 			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
-			<li class="active"><a href="cargar_solicitud.php"><span class="glyphicon glyphicon-tags"></span> Solicitud Cortada</a></li>
+			<li><a href="cargar_solicitud.php"><span class="glyphicon glyphicon-tags"></span> Solicitud Cortada</a></li>
 			<li><a href="libro_de_acta.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta</a></li>
 			<li><a href="busqueda_avanzada.php"><span class="glyphicon glyphicon-search"></span> Búsqueda Avanzada</a></li>
-			<li><a href="pendientes.php"><span class="glyphicon glyphicon-time"></span> Pendientes</a></li>
+			<li class="active"><a href="pendientes.php"><span class="glyphicon glyphicon-time"></span> Pendientes</a></li>
 			<?php if($_SESSION['cargo']=='Jefe DEspacho Eléctrico'){ echo "<li><a href='nuestro_equipo.php'><span class='glyphicon glyphicon-user'></span> Nuestro Equipo</a></li>";}else{echo "<li></li>";}?>
 			<?php if($_SESSION['cargo']=='Jefe DEspacho Eléctrico'){ echo "<li><a href='objetivos.php'><span class='glyphicon glyphicon-tasks'></span> Objetivos</a></li>";}else{echo "<li></li>";}?>
 			<?php if($_SESSION['area']=='Operaciones'){ echo "<li><a href='../index.php'><span class='glyphicon glyphicon-user'></span> Regresar</a></li>";}else{ echo "<li></li>";}?>
@@ -80,36 +79,40 @@ if(!$_SESSION['logeado']==1)
 		<div class="row">
 			<ul class="breadcrumb">
 				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active">Cortadas Solicitadas</li>
+				<li class="active">Eventos Pendientes</li>
 			</ul>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Despacho Eléctrico</h1>
-				<h2 class="page-header">Cortadas Solicitadas</h2>
+				<h2 class="page-header">Eventos Pendientes</h2>
 			</div>
 		</div><!--/.row-->
 
 		<div class="row">
 			<div class="col-lg-12">
-			<form method="post" action="buscar_cortada.php">
-				<label>Buscar Cortadas Solicitadas Desde: <input data-provide="datepicker" type="text" style="text-align:center" readonly="true" name="fecha_desde"> Hasta: <input data-provide="datepicker" style="text-align:center" readonly="true" type="text" name="fecha_hasta"></label>&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="background:#0065ad" class="btn btn-default btn-md">Buscar</button><br><br>
-			</form>
 				<div class="panel panel-default">
-					<div class="panel-heading">Cortadas Solicitadas</div>
+					<div class="panel-heading">Listado de Eventos Pendientes</div>
 					<div class="panel-body">
-						<table data-toggle="table" data-url="despacho_solicitud.php"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+						<table data-toggle="table" data-url="pendientes_array.php" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name">
 						    <thead>
 						    <tr>
-						        <th data-field="desde_fecha" data-sortable="true">Desde</th>
-						        <th data-field="hasta_fecha" data-sortable="true">Hasta</th>
-						        <th data-field="circulacion_trenes" data-sortable="true">Circulación Trenes</th>
-						        <th data-field="empresa" data-sortable="true">Empresa</th>
-						        <th data-field="descripcion" data-sortable="true">Descripción Trabajos</th>
-						        <th data-field="aprobacion" data-sortable="true">Aprobación Despacho Eléctrico</th>
-						        <th data-field="despachador" data-sortable="true">Despachador</th>
-						        <th data-field="estado" data-sortable="true">Estado</th>
+						        <th data-field="fecha_inicio">Fecha y Hora Inicio</th>
+						        <th data-field="fecha_termino">Fecha y Hora Término</th>
+						        <th data-field="categoria">Categoría</th>
+						        <th data-field="km_lugar">Km/Lugar</th>
+						        <th data-field="den_des">DEN/DES</th>
+						        <th data-field="descripcion">Descripción</th>
+						        <th data-field="notificador">Notificador</th>
+						        <?php
+						        	if ($_SESSION['cargo']=="Jefe Despacho Eléctrico") {
+						        		echo "
+						        		<th data-field='usuario'>Usuario</th>
+						        		<th data-field='fecha_hora'>Fecha Sistema</th>
+						        		";
+						        	}
+						        ?>
 						    </tr>
 						    </thead>
 						</table>
@@ -129,7 +132,10 @@ if(!$_SESSION['logeado']==1)
 <script src="js/bootstrap-datepicker.js"></script>
 <script src="js/custom.js"></script>
 <script src="js/bootstrap-table.js"></script>
-	
+<script type="text/javascript">
+		function ocultar(){
+		document.getElementById('success').style.display = 'none';}
+	</script>
 </body>
 
 </html>
