@@ -10,7 +10,24 @@ date_default_timezone_set("America/Santiago");
 
 $categorias=mysqli_query($link, "SELECT * FROM despacho_categorias ORDER BY nombre_categoria ASC");
 
-$ingreso=$_GET['ingreso'];
+$id = $_GET['id'];
+
+$sql = "SELECT * FROM despacho_libro_acta WHERE id='$id'";
+
+if(!$result = mysqli_query($link, $sql)) die();
+
+while($row = mysqli_fetch_array($result)) 
+{ 
+	$fecha_inicio = $row["fecha_inicio"];
+	$hora_inicio = $row["hora_inicio"];
+	$fecha_termino = $row["fecha_termino"];
+	$hora_termino = $row["hora_termino"];
+	$categoria = $row["categoria"];
+	$km_lugar = $row["km_lugar"];
+	$den_des = $row["den_des"];
+	$descripcion = $row["descripcion"];
+	$notificador = $row["notificador"];
+}
 
 ?>
 
@@ -89,6 +106,101 @@ $ingreso=$_GET['ingreso'];
 				<h2 class="page-header">Eventos Pendientes</h2>
 			</div>
 		</div><!--/.row-->
+
+		<div class="row">
+			<div class="col-lg-12">
+				<form role="form" name="modificar" action="cerrar_pendiente.php" method="post">
+					<div class="panel panel-default">
+					<input type="hidden" name="id" value="<?php echo $id;?>">
+						<div class="panel-heading">Cerrar Evento Libro de Acta</div>
+						<div class="panel-body">
+						<table style="border:0;width:100%">
+							<thead>
+					    		<tr>
+					        		<th><label>Fecha Inicio:</label></th>
+					        		<th><input data-provide="datepicker" style="background-color:#b9b9ba;color:#000" name="fecha" class="form-control" disabled="true" value="<?php echo $fecha_inicio; ?>"></th>
+					        		<th><label>&nbsp;&nbsp;&nbsp;Hora de Inicio:</label></th>
+					        		<th><input type="text" style="background-color:#b9b9ba;color:#000" id="hora_inicio" name="hora_inicio" disabled="true" class="hora-control1 form-control" value="<?php echo $hora_inicio; ?>">
+									<script type="text/javascript">
+										var clock = $('.hora-control1');
+										clock.clockpicker({
+    									autoclose: true
+										});
+										// minutes
+										clock.clockpicker('show').clockpicker('toggleView', 'minutes');
+									</script></th>
+									<th><label>&nbsp;&nbsp;&nbsp;Km/Lugar:</label></th>
+									<th><input style="background-color:#b9b9ba;color:#000" name="km_lugar" class="form-control" disabled="true" placeholder="Ingrese un Kilómetro o Lugar" value="<?php echo $km_lugar;?>"></th>
+					    		</tr>
+							</thead> 
+							<tbody>
+								<tr>
+									<td style="visibility:hidden">AAA</td>
+									<td style="visibility:hidden">AAA</td>
+									<td style="visibility:hidden">AAA</td>
+									<td style="visibility:hidden">AAA</td>
+								</tr>
+					    		<tr>
+					        		<th><label>Categoría:</label></th>
+					        		<th><select class="form-control" style="background-color:#b9b9ba;color:#000" disabled="true" name="categoria">
+ 											<?php
+ 												echo "<option value='".utf8_encode($categoria)."'>".utf8_encode($categoria)."</option>";
+													while($row_categorias=mysqli_fetch_array($categorias)){
+														if(utf8_encode($categoria)==utf8_encode($row_categorias["nombre_categoria"])){
+															echo "";
+														}else{
+   															echo "<option  value='".utf8_encode($row_categorias["nombre_categoria"])."'>".utf8_encode($row_categorias["nombre_categoria"])."</option>";
+   														}
+   													} 
+											?>
+										</select></th>
+									<th><label>&nbsp;&nbsp;&nbsp;DEN/DES:</label></th>
+									<th><input style="background-color:#b9b9ba;color:#000" name="den_des" class="form-control" disabled="true" placeholder="Ingrese un DEN/DES. Ej: DEN #450" value="<?php echo $den_des;?>"></th>
+					    			<th><label>&nbsp;&nbsp;&nbsp;Notificador:</label></th>
+					    			<th><input style="background-color:#b9b9ba;color:#000" name="notificador" class="form-control" disabled="true" placeholder="Ingrese el nombre de quien Notifica el hecho" value="<?php echo utf8_encode($notificador);?>"></th>
+					    		</tr>
+					    		<tr>
+									<td style="visibility:hidden">AAA</td>
+									<td style="visibility:hidden">AAA</td>
+									<td style="visibility:hidden">AAA</td>
+									<td style="visibility:hidden">AAA</td>
+								</tr>
+							</tbody>
+						</table>
+						<table style="width:100%">
+							<thead>
+								<tr>
+									<th style="width:88px"><label>Descripción:</label></th>
+									<th><textarea style="background-color:#b9b9ba;color:#000" name="descripcion" disabled="true" class="form-control"><?php echo utf8_encode($descripcion);?></textarea></th>
+								</tr>
+							</thead>
+						</table>
+						<br>
+						<table style="width:100%">
+							<thead>
+								<tr>
+									<th style="width:88px">Fecha Término:</th>
+									<th><input data-provide="datepicker" style="background-color:#fff;color:#000;cursor:pointer" name="fecha_termino" class="form-control" onclick="fecha()" value="<?php echo date('Y-m-d'); ?>"></th>
+									<th style="width:88px;text-align:center">Hora Término:</th>
+									<th><input type="text" style="background-color:#fff;color:#000" name="hora_termino" class="hora-control2 form-control" value="<?php echo $hora_termino; ?>">
+									<script type="text/javascript">
+										var clock = $('.hora-control2');
+										clock.clockpicker({
+    									autoclose: true
+										});
+										// minutes
+										clock.clockpicker('show').clockpicker('toggleView', 'minutes');
+									</script></th>
+								</tr>
+							</thead> 
+						</table>
+						<br>
+							<button type="submit" class="btn btn-default btn-md" style="background-color:#00438c">Cerrar Pendiente</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 
 		<div class="row">
 			<div class="col-lg-12">

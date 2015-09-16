@@ -44,7 +44,15 @@ if(isset($_POST['user'])){
 
 		if ($_SESSION['area']=='Despacho Eléctrico') {
 
-			header("Location: despacho_electrico");
+			if ($_SESSION['cargo']=='Despachador Eléctrico') {
+				
+				header("Location: despacho_electrico/libro_de_acta.php");
+
+			}else{
+
+				header("Location: despacho_electrico");
+
+			}
 
 		}elseif ($_SESSION['area']=='Tráfico') {
 			

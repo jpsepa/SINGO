@@ -6,7 +6,7 @@ include "../config.php";
 
 $link = Conectarse();
 
-$sql = "SELECT * FROM despacho_libro_acta WHERE categoria='' ORDER BY id DESC";
+$sql = "SELECT * FROM despacho_libro_acta WHERE categoria='PENDIENTE' OR (fecha_termino='0000-00-00' AND hora_termino='00:00:00') AND (categoria!='O.D.E.' AND categoria!='TELEGRAMA' AND categoria!='OTRO' AND categoria!='DESCONEXIÓN CANCELADA') ORDER BY id DESC";
 mysqli_set_charset($link, "utf8"); //formato de datos utf8
 
 
@@ -33,8 +33,9 @@ while($row = mysqli_fetch_array($result))
 	$notificador = $row["notificador"];
 	$usuario = $row["usuario"];
 	$fecha_hora = $row["fecha_hora"];
+	$cerrar_pendiente = "<a href='cerrar_pendiente_form.php?id=$id'>Cerrar</a>";
 
-	$libro_de_acta_array[] = array('id'=> $id, 'fecha_inicio'=> $fecha_hora_inicio, 'hora_inicio'=> $hora_inicio, 'fecha_termino'=> $fecha_hora_termino, 'categoria'=> $categoria, 'km_lugar'=> $km_lugar, 'den_des'=> $den_des, 'descripcion'=> $descripcion, 'notificador'=> $notificador, 'usuario'=> $usuario, 'fecha_hora'=> $fecha_hora);
+	$libro_de_acta_array[] = array('id'=> $id, 'fecha_inicio'=> $fecha_hora_inicio, 'hora_inicio'=> $hora_inicio, 'fecha_termino'=> $fecha_hora_termino, 'categoria'=> $categoria, 'km_lugar'=> $km_lugar, 'den_des'=> $den_des, 'descripcion'=> $descripcion, 'notificador'=> $notificador, 'usuario'=> $usuario, 'fecha_hora'=> $fecha_hora, 'cerrar_pendiente'=> $cerrar_pendiente);
 
 }
 	

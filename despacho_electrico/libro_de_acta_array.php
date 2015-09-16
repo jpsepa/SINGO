@@ -33,9 +33,9 @@ while($row = mysqli_fetch_array($result))
 	$notificador = $row["notificador"];
 	$usuario = $row["usuario"];
 	$fecha_hora = $row["fecha_hora"];
+	$modificar = "<a href='modificar_registro.php?id=$id'>Editar/Cerrar</a>";
 
-	$libro_de_acta_array[] = array('id'=> $id, 'fecha_inicio'=> $fecha_hora_inicio, 'hora_inicio'=> $hora_inicio, 'fecha_termino'=> $fecha_hora_termino, 'categoria'=> $categoria, 'km_lugar'=> $km_lugar, 'den_des'=> $den_des, 'descripcion'=> $descripcion, 'notificador'=> $notificador, 'usuario'=> $usuario, 'fecha_hora'=> $fecha_hora);
-
+	$libro_de_acta_array[] = array('id'=> $id, 'fecha_inicio'=> $fecha_hora_inicio, 'hora_inicio'=> $hora_inicio, 'fecha_termino'=> $fecha_hora_termino, 'categoria'=> $categoria, 'km_lugar'=> $km_lugar, 'den_des'=> $den_des, 'descripcion'=> $descripcion, 'notificador'=> $notificador, 'usuario'=> $usuario, 'fecha_hora'=> $fecha_hora, 'modificar'=> $modificar);
 }
 	
 //desconectamos la base de datos
