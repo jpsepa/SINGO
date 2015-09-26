@@ -8,9 +8,19 @@ $link = Conectarse();
 
 date_default_timezone_set("America/Santiago");
 
+if(!$_SESSION['logeado']==1)
+	header("Location: ../login.php");
+
+$user = $_SESSION["user"];
+
+$turno = mysqli_query($link, "SELECT turno FROM sesiones WHERE id=(SELECT MAX(id) FROM sesiones) AND nombre='$user'");
+$rows = mysqli_fetch_array($turno);
+$turno2=$rows['turno'];
+
 $categorias=mysqli_query($link, "SELECT * FROM despacho_categorias ORDER BY nombre_categoria ASC");
 
-$ingreso=$_GET['ingreso'];
+$ingreso = $_GET['ingreso'];
+
 
 ?>
 
@@ -36,7 +46,16 @@ $ingreso=$_GET['ingreso'];
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.11.0.js'></script>
 <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="js/clockpicker.js"></script>
-
+<script type="text/javascript">
+	function justNumbers(e)
+    {
+    	var keynum = window.event ? window.event.keyCode : e.which;
+        if ((keynum == 8) || (keynum == 46))
+            return true;
+             
+        return /\d/.test(String.fromCharCode(keynum));
+    }
+</script>
 </head>
 
 <body>
@@ -58,16 +77,19 @@ $ingreso=$_GET['ingreso'];
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		<form role="search">
 			<div class="form-group">
-				<h3><?php echo $_SESSION['nombre']." ". utf8_encode($_SESSION['apellido_pat']);?></h3>
+				<h3><?php echo utf8_encode($_SESSION['nombre'])." ". utf8_encode($_SESSION['apellido_pat']);?></h3>
 				<h4><?php echo $_SESSION['cargo'];?></h4>
+				<h4>Turno: <?php echo $turno2;?></h4>
 			</div>
 		</form>
 		<ul class="nav menu">
 			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
 			<li><a href="cargar_solicitud.php"><span class="glyphicon glyphicon-tags"></span> Solicitud Cortada</a></li>
-			<li class="active"><a href="libro_de_acta.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta</a></li>
+			<li class="active"><a href="libro_de_acta.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta <?php echo $turno2;?></a></li>
+			<li><a href="libro_de_acta_todos.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta</a></li>
 			<li><a href="busqueda_avanzada.php"><span class="glyphicon glyphicon-search"></span> Búsqueda Avanzada</a></li>
 			<li><a href="pendientes.php"><span class="glyphicon glyphicon-time"></span> Pendientes</a></li>
+			<li><a href="cortadas_canceladas.php"><span class="glyphicon glyphicon-ban-circle"></span> Cortadas Canceladas</a></li>
 			<?php if($_SESSION['cargo']=='Jefe DEspacho Eléctrico'){ echo "<li><a href='nuestro_equipo.php'><span class='glyphicon glyphicon-user'></span> Nuestro Equipo</a></li>";}else{echo "<li></li>";}?>
 			<?php if($_SESSION['cargo']=='Jefe DEspacho Eléctrico'){ echo "<li><a href='objetivos.php'><span class='glyphicon glyphicon-tasks'></span> Objetivos</a></li>";}else{echo "<li></li>";}?>
 			<?php if($_SESSION['area']=='Operaciones'){ echo "<li><a href='../index.php'><span class='glyphicon glyphicon-user'></span> Regresar</a></li>";}else{ echo "<li></li>";}?>
@@ -86,7 +108,7 @@ $ingreso=$_GET['ingreso'];
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Despacho Eléctrico</h1>
-				<h2 class="page-header">Libro de Acta</h2>
+				<h2 class="page-header">Libro de Acta <?php echo $turno2;?></h2>
 			</div>
 		</div><!--/.row-->
 		
@@ -142,8 +164,8 @@ $ingreso=$_GET['ingreso'];
    													echo "<option  value='".utf8_encode($row_categorias["nombre_categoria"])."'>".utf8_encode($row_categorias["nombre_categoria"])."</option>"; 
 											?>
 										</select></td>
-									<td><label>&nbsp;&nbsp;&nbsp;DEN/DES:</label></td>
-									<td><input style="background-color:#fff;color:#000;text-transform:uppercase" name="den_des" class="form-control" placeholder="Ingrese un DEN/DES. Ej: DEN #450"></td>
+									<td><label>&nbsp;&nbsp;&nbsp;<?php if($turno2=="DEN"){echo "DEN:";}else{echo "DES:";} ?></label></td>
+									<td><input style="background-color:#fff;color:#000;text-transform:uppercase" name="den_des" class="form-control" onkeypress="return justNumbers(event);" placeholder="Ingrese un DEN/DES. Ej: DEN #450"></td>
 					    			<td><label>&nbsp;&nbsp;&nbsp;Notificador:</label></td>
 					    			<td><input style="background-color:#fff;color:#000;text-transform:uppercase" name="notificador" class="form-control" placeholder="Ingrese el nombre de quien Notifica el hecho"></td>
 					    		</tr>

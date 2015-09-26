@@ -30,7 +30,7 @@ if(isset($_POST['user'])){
 
 		$_SESSION['user']=$row['user'];
 
-		$_SESSION['nombre']=htmlentities($row['nombre']);
+		$_SESSION['nombre']=utf8_decode($row['nombre']);
 
 		$_SESSION['apellido_pat']=utf8_decode($row['apellido_pat']);
 
@@ -46,7 +46,7 @@ if(isset($_POST['user'])){
 
 			if ($_SESSION['cargo']=='Despachador Eléctrico') {
 				
-				header("Location: despacho_electrico/libro_de_acta.php");
+				header("Location: despacho_electrico/seleccionar_den_des.php");
 
 			}else{
 
@@ -62,6 +62,10 @@ if(isset($_POST['user'])){
 			
 			header("Location: vigilancia");
 
+		}elseif ($_SESSION['area']=='Operaciones de Servicios') {
+			
+			header("Location: operaciones_servicios");
+		
 		}else{
 
 		header("Location: index.php");

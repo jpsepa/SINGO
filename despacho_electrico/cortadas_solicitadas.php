@@ -1,6 +1,6 @@
 <?php 
   
-session_start();
+error_reporting(E_ERROR);
 
 include "../config.php";
 
@@ -12,6 +12,12 @@ session_start();
 
 if(!$_SESSION['logeado']==1)
 	header("Location: ../login.php");
+
+$user = $_SESSION["user"];
+
+$turno = mysqli_query($link, "SELECT turno FROM sesiones WHERE id=(SELECT MAX(id) FROM sesiones) AND nombre='$user'");
+$rows = mysqli_fetch_array($turno);
+$turno2=$rows['turno'];
 
 ?>
 
@@ -59,14 +65,16 @@ if(!$_SESSION['logeado']==1)
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		<form role="search">
 			<div class="form-group">
-				<h3><?php echo $_SESSION['nombre']." ". utf8_encode($_SESSION['apellido_pat']);?></h3>
+				<h3><?php echo utf8_encode($_SESSION['nombre'])." ".utf8_encode($_SESSION['apellido_pat']);?></h3>
 				<h4><?php echo $_SESSION['cargo'];?></h4>
+				<h4>Turno: <?php echo $turno2;?></h4>
 			</div>
 		</form>
 		<ul class="nav menu">
 			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
 			<li class="active"><a href="cargar_solicitud.php"><span class="glyphicon glyphicon-tags"></span> Solicitud Cortada</a></li>
-			<li><a href="libro_de_acta.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta</a></li>
+			<li><a href="libro_de_acta.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta <?php echo $turno2;?></a></li>
+			<li><a href="libro_de_acta_todos.php"><span class="glyphicon glyphicon-book"></span> Libro de Acta</a></li>
 			<li><a href="busqueda_avanzada.php"><span class="glyphicon glyphicon-search"></span> Búsqueda Avanzada</a></li>
 			<li><a href="pendientes.php"><span class="glyphicon glyphicon-time"></span> Pendientes</a></li>
 			<?php if($_SESSION['cargo']=='Jefe DEspacho Eléctrico'){ echo "<li><a href='nuestro_equipo.php'><span class='glyphicon glyphicon-user'></span> Nuestro Equipo</a></li>";}else{echo "<li></li>";}?>

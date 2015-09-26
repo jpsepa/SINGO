@@ -6,7 +6,7 @@ include "../config.php";
 
 $link = Conectarse();
 
-$sql = "SELECT * FROM despacho_libro_acta WHERE categoria='PENDIENTE' OR (fecha_termino='0000-00-00' AND hora_termino='00:00:00') AND (categoria!='O.D.E.' AND categoria!='TELEGRAMA' AND categoria!='OTRO' AND categoria!='DESCONEXIÓN CANCELADA') ORDER BY id DESC";
+$sql = "SELECT * FROM despacho_libro_acta WHERE fecha_termino='0000-00-00' AND hora_termino='00:00:00' AND (categoria!='O.D.E.' AND categoria!='TELEGRAMA' AND categoria!='OTRO' AND categoria!='DESCONEXIÓN CANCELADA' AND categoria!='ENTREGA DE DESCONEXIÓN') ORDER BY id DESC";
 mysqli_set_charset($link, "utf8"); //formato de datos utf8
 
 
