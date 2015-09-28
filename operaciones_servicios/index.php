@@ -12,113 +12,6 @@ if(!$_SESSION['logeado']==1)
 
 $user = $_SESSION["user"];
 
-$turno = mysqli_query($link, "SELECT turno FROM sesiones WHERE id=(SELECT MAX(id) FROM sesiones) AND nombre='$user'");
-$rows = mysqli_fetch_array($turno);
-$turno2=$rows['turno'];
-
-$fecha=strtotime(date("Y-m-d H:i:s"));
-$ano1=date("Y", $fecha);
-$mes1=date("m", $fecha);
-$dia1=date("d", $fecha);
-
-$mesanterior=$mes1 - 1;
-
-if ($mes1=="01") {
-	$mes1="Enero";
-}elseif ($mes1=="02") {
-	$mes1="Febrero";
-}elseif ($mes1=="03") {
-	$mes1="Marzo";
-}elseif ($mes1=="04") {
-	$mes1="Abril";
-}elseif ($mes1=="05") {
-	$mes1="Mayo";
-}elseif ($mes1=="06") {
-	$mes1="Junio";
-}elseif ($mes1=="07") {
-	$mes1="Julio";
-}elseif ($mes1=="08") {
-	$mes1="Agosto";
-}elseif ($mes1=="09") {
-	$mes1="Septiembre";
-}elseif ($mes1=="10") {
-	$mes1="Octubre";
-}elseif ($mes1=="11") {
-	$mes1="Noviembre";
-}elseif ($mes1=="12") {
-	$mes1="Diciembre";
-}
-
-if ($mesanterior=="1") {
-	$mesanterior="Enero";
-}elseif ($mesanterior=="2") {
-	$mesanterior="Febrero";
-}elseif ($mesanterior=="3") {
-	$mesanterior="Marzo";
-}elseif ($mesanterior=="4") {
-	$mesanterior="Abril";
-}elseif ($mesanterior=="5") {
-	$mesanterior="Mayo";
-}elseif ($mesanterior=="6") {
-	$mesanterior="Junio";
-}elseif ($mesanterior=="7") {
-	$mesanterior="Julio";
-}elseif ($mesanterior=="8") {
-	$mesanterior="Agosto";
-}elseif ($mesanterior=="9") {
-	$mesanterior="Septiembre";
-}elseif ($mesanterior=="10") {
-	$mesanterior="Octubre";
-}elseif ($mesanterior=="11") {
-	$mesanterior="Noviembre";
-}elseif ($mesanterior=="12") {
-	$mesanterior="Diciembre";
-}
-
-//TOTAL SOLICITUDES
-$total = mysqli_query($link, "SELECT COUNT(*) FROM despacho_solicitud");
-$cant_total = $total->fetch_row();
-$cantidad_total = $cant_total[0];
-
-//ASSIGNIA
-$total_assignia = mysqli_query($link, "SELECT COUNT(*) FROM despacho_solicitud WHERE empresa='ASSIGNIA'");
-$cant_total_assignia = $total_assignia->fetch_row();
-$cantidad_total_assignia = $cant_total_assignia[0];
-
-
-if($cantidad_total == 0)
-{
-	$indicador_assignia=0;
-}else{
-	$indicador_assignia = $cantidad_total_assignia * 100 / $cantidad_total;
-}
-
-//BESALCO
-$total_besalco = mysqli_query($link, "SELECT COUNT(*) FROM despacho_solicitud WHERE empresa='BESALCO'");
-$cant_total_besalco = $total_besalco->fetch_row();
-$cantidad_total_besalco = $cant_total_besalco[0];
-
-
-if($cantidad_total == 0)
-{
-	$indicador_besalco=0;
-}else{
-	$indicador_besalco = $cantidad_total_besalco * 100 / $cantidad_total;
-}
-
-//SISTEMAS SEC
-$total_ssec = mysqli_query($link, "SELECT COUNT(*) FROM despacho_solicitud WHERE empresa='SSEC'");
-$cant_total_ssec = $total_ssec->fetch_row();
-$cantidad_total_ssec = $cant_total_ssec[0];
-
-
-if($cantidad_total == 0)
-{
-	$indicador_ssec=0;
-}else{
-	$indicador_ssec = $cantidad_total_ssec * 100 / $cantidad_total;
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -191,10 +84,55 @@ if($cantidad_total == 0)
 			</div>
 		</div><!--/.row-->
 
-		<div class="row">
-			
+		<div class="row col-no-gutter-container row-margin-top">
+			<div class="col-lg-12 col-no-gutter">
+				<div class="panel panel-default">
+					<div class="panel-heading">Cantidad de Equipos ingresados en Maestranza
+					<select onChange="mostrarResultados2(this.value);">
+						<?php 
+							for($i == 2010;$i<2020;$i++){
+								if($i == 2015){
+									echo '<option value="'.$i.'" selected>'.$i.'</option>';
+								}else{
+									echo '<option value="'.$i.'">'.$i.'</option>';
+								}
+							}
+						?>
+					</select>
+					</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<canvas class="main-chart" id="grafico" height="200" width="600"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div><!--/.row-->
 
+		<div class="row col-no-gutter-container row-margin-top">
+			<div class="col-lg-12 col-no-gutter">
+				<div class="panel panel-default">
+					<div class="panel-heading">Cantidad de Fallas por Tipo
+					<select onChange="mostrarResultados2(this.value);">
+						<?php 
+							for($a == 2010;$a<2020;$a++){
+								if($a == 2015){
+									echo '<option value="'.$a.'" selected>'.$a.'</option>';
+								}else{
+									echo '<option value="'.$a.'">'.$a.'</option>';
+								}
+							}
+						?>
+					</select>
+					</div>
+					<div class="panel-body">
+						<div class="canvas-wrapper">
+							<canvas class="main-chart" id="graficos" height="200" width="600"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
 		
 
 	</div>	<!--/.main-->
@@ -208,22 +146,86 @@ if($cantidad_total == 0)
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
 	<script>
-	window.onload = function(){
+		$(document).ready(mostrarResultados(2015));
+			function mostrarResultados(ano){
+				$.ajax({
+					type:'POST',
+					url:'equipos_maestranza.php',
+					data:'ano='+ano,
+					success:function(data){
 
-		var chart1 = document.getElementById("pie-chart").getContext("2d");
-		window.myPie = new Chart(chart1).Pie(pieData, {
-			responsive : true,
-			segmentShowStroke : false
-		});
+						var valores = eval(data);
 
-		var chart2 = document.getElementById("pie-chart2").getContext("2d");
-		window.myPie = new Chart(chart2).Pie(pieData2, {
-			responsive : true,
-			segmentShowStroke : false
-		});
+						var e 	= valores[0];
+						var f 	= valores[1];
+						var m 	= valores[2];
+						var a 	= valores[3];
+						var ma 	= valores[4];
+						var j 	= valores[5];
+						var jl 	= valores[6];
+						var ag 	= valores[7];
+						var s 	= valores[8];
+						var o 	= valores[9];
+						var n 	= valores[10];
+						var d 	= valores[11];
 
-	};
-	</script>	
+						var Datos = {
+								labels : ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+								datasets : [
+									{
+										fillColor : 'rgba(234,150,7,0.6)', //COLOR DE LAS BARRAS
+										strokeColor : 'rgba(250,132,0,0.7)', //COLOR BORDE DE LAS BARRAS
+										highlightFill : 'rgba(250,176,0,0.6)',
+										highlightStroke : 'rgba(250,129,0,0.7)',
+										data : [e, f, m, a, ma, j, jl, ag, s, o, n, d]
+									}
+								]
+							}
+
+						var contexto = document.getElementById('grafico').getContext('2d');
+						window.Barra = new Chart(contexto).Bar(Datos, { responsive: true});
+					}
+				});
+				return false;
+			}
+	</script>
+	<script>
+		$(document).ready(mostrarResultados2(2015));
+			function mostrarResultados2(ano){
+				$.ajax({
+					type:'POST',
+					url:'equipos_fallas.php',
+					data:'ano='+ano,
+					success:function(data){
+
+						var valores = eval(data);
+
+						var el 	= valores[0];
+						var ne 	= valores[1];
+						var me 	= valores[2];
+						var es 	= valores[3];
+						var aa 	= valores[4];
+
+						var Datos = {
+								labels : ['Falla Eléctrica', 'Falla Neumátca', 'Falla Mecánica', 'Falla Estructural', 'Falla Aire Acondicionado'],
+								datasets : [
+									{
+										fillColor : 'rgba(234,150,7,0.6)', //COLOR DE LAS BARRAS
+										strokeColor : 'rgba(250,132,0,0.7)', //COLOR BORDE DE LAS BARRAS
+										highlightFill : 'rgba(250,176,0,0.6)',
+										highlightStroke : 'rgba(250,129,0,0.7)',
+										data : [el, ne, me, es, aa]
+									}
+								]
+							}
+
+						var contexto = document.getElementById('graficos').getContext('2d');
+						window.Barra = new Chart(contexto).Bar(Datos, { responsive: true});
+					}
+				});
+				return false;
+			}
+	</script>
 </body>
 
 </html>

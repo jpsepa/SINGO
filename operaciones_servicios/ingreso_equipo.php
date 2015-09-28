@@ -51,67 +51,67 @@ $ingreso = $_GET['ingreso'];
 </script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script>
-		$(document).ready(function(){
-			$("#cboFallas").change(function() {
-				var falla = $(this).val();
-				
-				if(falla > 0)
-				{
-			        var datos = {
-			            id : $(this).val()  
-			        };
+<script>
+	$(document).ready(function(){
+		$("#cboFallas").change(function() {
+			var falla = $(this).val();
+			
+			if(falla > 0)
+			{
+		        var datos = {
+		            id : $(this).val()  
+		        };
 
-			        $.post("subcategorias.php", datos, function(subcategorias) {
-			        	
-					  	var $comboSubcategorias = $("#cbosubcategoria");
-		                $comboSubcategorias.empty();
-		                $.each(subcategorias, function(index, subcategoria) {
-		                	//
-	                        $comboSubcategorias.append("<option value='"+ subcategoria.id +"'>" + subcategoria.nombre + "</option>");
-		                });
-					}, 'json');
-				}
-				else
-				{
-					var $comboSubcategorias = $("#cbosubcategoria");
+		        $.post("subcategorias.php", datos, function(subcategorias) {
+	        	
+				  	var $comboSubcategorias = $("#cbosubcategoria");
 	                $comboSubcategorias.empty();
-					$comboSubcategorias.append("<option>SELECCIONE UNA FALLA</option>");
-				}
-			});
-		}); 
-	</script>
+	                $.each(subcategorias, function(index, subcategoria) {
+	                	//
+	                    $comboSubcategorias.append("<option value='"+ subcategoria.id +"'>" + subcategoria.nombre + "</option>");
+	                });
+				}, 'json');
+			}
+			else
+			{
+				var $comboSubcategorias = $("#cbosubcategoria");
+	            $comboSubcategorias.empty();
+				$comboSubcategorias.append("<option>SELECCIONE UNA FALLA</option>");
+			}
+		});
+	}); 
+</script>
 
-	<script>
-		$(document).ready(function(){
-			$("#cbtipoequipo").change(function() {
-				var equipo = $(this).val();
+<script>
+	$(document).ready(function(){
+		$("#cbtipoequipo").change(function() {
+			var equipo = $(this).val();
 				
-				if(equipo > 0)
-				{
-			        var datos = {
-			            id : $(this).val()  
-			        };
+			if(equipo > 0)
+			{
+		        var datos = {
+		            id : $(this).val()  
+		        };
 
-			        $.post("numeros_equipos.php", datos, function(numeros_equipos) {
-			        	
-					  	var $comboNumerosEquipos = $("#cbnumeroequipo");
-		                $comboNumerosEquipos.empty();
-		                $.each(numeros_equipos, function(index, numeros_equipos) {
-		                	//
-	                        $comboNumerosEquipos.append("<option value='"+ numeros_equipos.id +"'>" + numeros_equipos.numero + "</option>");
-		                });
-					}, 'json');
-				}
-				else
-				{
-					var $comboSubcategorias = $("#cbnumeroequipo");
-	                $comboSubcategorias.empty();
-					$comboSubcategorias.append("<option>SELECCIONE UN NÚMERO DE EQUIPO</option>");
-				}
-			});
-		}); 
-	</script>
+		        $.post("numeros_equipos.php", datos, function(numeros_equipos) {
+		        	
+				  	var $comboNumerosEquipos = $("#cbnumeroequipo");
+	                $comboNumerosEquipos.empty();
+	                $.each(numeros_equipos, function(index, numeros_equipos) {
+                	//
+                    $comboNumerosEquipos.append("<option value='"+ numeros_equipos.id +"'>" + numeros_equipos.numero + "</option>");
+	                });
+				}, 'json');
+			}
+			else
+			{
+				var $comboSubcategorias = $("#cbnumeroequipo");
+                $comboSubcategorias.empty();
+				$comboSubcategorias.append("<option>SELECCIONE UN NÚMERO DE EQUIPO</option>");
+			}
+		});
+	}); 
+</script>
 
 </head>
 
